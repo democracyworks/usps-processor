@@ -4,7 +4,8 @@
             [clojure.java.io :as io]
             [turbovote.imbarcode :as imb]
             [aws.sdk.s3 :as s3]
-            [turbovote.resource-config :refer [config]]))
+            [turbovote.resource-config :refer [config]]
+            [turbovote.datomic-toolbox :as d]))
 
 (defn row->map [row]
   (let [[facility op-code time routing-code structure-digits] row

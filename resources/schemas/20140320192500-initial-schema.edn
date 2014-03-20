@@ -1,0 +1,82 @@
+[
+ {:db/id #db/id[:db.part/db]
+  :db/ident :usps-processor
+  :db.install/_partition :db.part/db}
+
+ ;; mailings
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/serial-number-6
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Serial number (6 digits)"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/serial-number-9
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Serial number (9 digits)"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/mailer-id-6
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Mailer id (6 digits)"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/mailer-id-9
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Mailer id (9 digits)"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/routing-code
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Routing code"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/last-scan
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db/doc "USPS scan"
+  :db.install/_attribute :db.part/db}
+
+ ;; USPS scan
+ {:db/id #db/id[:db.part/db]
+  :db/ident :scan/facility-zip
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "Facility zip code"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :scan/operation-code
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "Operation code"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :scan/time
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one
+  :db/doc "Time of scan"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :scan/structure-digits
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "Structure digits"
+  :db.install/_attribute :db.part/db}
+ ]
