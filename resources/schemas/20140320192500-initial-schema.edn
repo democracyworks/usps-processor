@@ -6,7 +6,7 @@
  ;; mailings
  {:db/id #db/id[:db.part/db]
   :db/ident :mailing/serial-number-6
-  :db/valueType :db.type/long
+  :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/index true
   :db/doc "Serial number (6 digits)"
@@ -14,7 +14,7 @@
 
  {:db/id #db/id[:db.part/db]
   :db/ident :mailing/serial-number-9
-  :db/valueType :db.type/long
+  :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/index true
   :db/doc "Serial number (9 digits)"
@@ -37,6 +37,14 @@
   :db.install/_attribute :db.part/db}
 
  {:db/id #db/id[:db.part/db]
+  :db/ident :mailing/customer-number
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/index true
+  :db/doc "Customer number"
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
   :db/ident :mailing/routing-code
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
@@ -44,14 +52,14 @@
   :db/doc "Routing code"
   :db.install/_attribute :db.part/db}
 
+ ;; USPS scan
  {:db/id #db/id[:db.part/db]
-  :db/ident :mailing/last-scan
+  :db/ident :scan/mailing
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one
-  :db/doc "USPS scan"
+  :db/doc "Mailing for scan"
   :db.install/_attribute :db.part/db}
 
- ;; USPS scan
  {:db/id #db/id[:db.part/db]
   :db/ident :scan/facility-zip
   :db/valueType :db.type/string
@@ -74,9 +82,16 @@
   :db.install/_attribute :db.part/db}
 
  {:db/id #db/id[:db.part/db]
-  :db/ident :scan/structure-digits
+  :db/ident :scan/barcode
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
-  :db/doc "Structure digits"
+  :db/doc "Barcode"
+  :db.install/_attribute :db.part/db}
+
+  {:db/id #db/id[:db.part/db]
+  :db/ident :scan/service
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "Service"
   :db.install/_attribute :db.part/db}
  ]
