@@ -8,5 +8,6 @@
                  [turbovote.datomic-toolbox "0.1.0-SNAPSHOT"]
                  [com.datomic/datomic-pro "0.9.4609" :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.8"]
+                 [com.cemerick/bandalore "0.0.5"]
                  [org.clojure/data.csv "0.1.2"]
                  [turbovote.imbarcode "0.1.4-SNAPSHOT"]])
