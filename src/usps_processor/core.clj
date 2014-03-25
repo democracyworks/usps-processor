@@ -3,7 +3,8 @@
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
             [usps-processor.sqs :as sqs]
-            [clojure.tools.logging :refer [info]]))
+            [clojure.tools.logging :refer [info]])
+  (:gen-class))
 
 (defn process-file [s3-key]
   (info "Processing" s3-key)
