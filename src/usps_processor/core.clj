@@ -15,5 +15,5 @@
 
 (defn -main [& args]
   (info "Starting up...")
-  (sqs/consume-messages process-file)
+  (sqs/consume-messages (sqs/client) process-file)
   (info "Started"))
