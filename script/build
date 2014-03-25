@@ -3,6 +3,12 @@
 # Exit if any command fails
 set -e
 
+# Enforce LEIN_USERNAME and LEIN_PASSWORD both set
+if [[ -z $LEIN_USERNAME || -z $LEIN_PASSWORD ]]; then
+echo "Set LEIN_USERNAME and LEIN_PASSWORD to your my.datomic.com credentials" >&2
+  exit 2
+fi
+
 echo "Building Docker image for usps-processor build..."
 docker build -t turbovote/usps-processor-build - < Dockerfile.build
 echo "Done."
@@ -10,6 +16,8 @@ echo "Done."
 echo "Building usps-processor..."
 
 docker run -v `pwd`:/usps-processor \
+           -e LEIN_USERNAME=$LEIN_USERNAME \
+           -e LEIN_PASSWORD=$LEIN_PASSWORD \
            turbovote/usps-processor-build
 
 echo "Done."
