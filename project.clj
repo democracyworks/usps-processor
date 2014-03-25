@@ -14,5 +14,8 @@
                  [org.clojure/data.csv "0.1.2"]
                  [turbovote.imbarcode "0.1.4-SNAPSHOT"]]
   :profiles {:uberjar {:aot [usps-processor.core]}}
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
+                                   :username :env
+                                   :password :env}}
   :uberjar-name "usps-processor.jar"
   :main usps-processor.core)
