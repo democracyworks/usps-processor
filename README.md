@@ -10,7 +10,8 @@ following shape:
                :secret-key "your AWS secret key"}
        :s3 {:bucket "S3-bucket-name-where-USPS-data-is-stored"}
        :sqs {:region #aws/region "AWS_region_enum" ; see below
-             :queue "https://sqs.amazonaws.com/your-sqs-queue"}
+             :queue "https://sqs.amazonaws.com/your-sqs-queue"
+             :fail-queue "https://sqs.amazonaws.com/your-sqs-failure-queue"}
  :datomic {:uri "datomic://your-datomic-uri"
            :partition :usps-processor}}
 ```

@@ -6,13 +6,14 @@
             [clojure.tools.logging :refer [info]])
   (:gen-class))
 
-(defn process-file [s3-key]
-  (info "Processing" s3-key)
-  (-> s3-key
-      s3/reader-from-s3
-      parse/parse
-      db/store-all)
-  (info "Processed" s3-key))
+(defn process-file [message]
+  (let [s3-key (:body message)]
+    (info "Processing" s3-key)
+    (-> s3-key
+        s3/reader-from-s3
+        parse/parse
+        db/store-all)
+    (info "Processed" s3-key)))
 
 (defn -main [& args]
   (info "Starting up...")
