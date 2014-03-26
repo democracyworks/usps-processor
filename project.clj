@@ -16,7 +16,8 @@
                  [compojure "1.1.6"]
                  [javax.servlet/servlet-api "2.5"]
                  [http-kit "2.1.16"]]
-  :profiles {:uberjar {:aot [usps-processor.importer]}}
+  :profiles {:uberjar {:aot [usps-processor.importer
+                             usps-processor.api]}}
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
