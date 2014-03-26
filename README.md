@@ -11,9 +11,10 @@ following shape:
        :s3 {:bucket "S3-bucket-name-where-USPS-data-is-stored"}
        :sqs {:region #aws/region "AWS_region_enum" ; see below
              :queue "https://sqs.amazonaws.com/your-sqs-queue"
-             :fail-queue "https://sqs.amazonaws.com/your-sqs-failure-queue"}
+             :fail-queue "https://sqs.amazonaws.com/your-sqs-failure-queue"}}
  :datomic {:uri "datomic://your-datomic-uri"
-           :partition :usps-processor}}}
+           :partition :usps-processor}
+ :api {:port 8080}}
 ```
 
 The valid values for `:aws :sqs :region` are the enum values listed in

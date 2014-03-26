@@ -12,7 +12,10 @@
                  [clj-aws-s3 "0.3.8"]
                  [com.cemerick/bandalore "0.0.5"]
                  [org.clojure/data.csv "0.1.2"]
-                 [turbovote.imbarcode "0.1.4-SNAPSHOT"]]
+                 [turbovote.imbarcode "0.1.4-SNAPSHOT"]
+                 [compojure "1.1.6"]
+                 [javax.servlet/servlet-api "2.5"]
+                 [http-kit "2.1.16"]]
   :profiles {:uberjar {:aot [usps-processor.importer]}}
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
