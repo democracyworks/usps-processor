@@ -13,7 +13,7 @@ following shape:
              :queue "https://sqs.amazonaws.com/your-sqs-queue"
              :fail-queue "https://sqs.amazonaws.com/your-sqs-failure-queue"}
  :datomic {:uri "datomic://your-datomic-uri"
-           :partition :usps-processor}}
+           :partition :usps-processor}}}
 ```
 
 The valid values for `:aws :sqs :region` are the enum values listed in
