@@ -8,7 +8,8 @@
             [org.httpkit.server :refer [run-server]]
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
-            [clojure.tools.logging :refer [info]]))
+            [clojure.tools.logging :refer [info]])
+  (:gen-class))
 
 (def param->query-key
   {:serial-6 :mailing/serial-number-6
