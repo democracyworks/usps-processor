@@ -21,4 +21,5 @@
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
+  :ring {:handler usps-processor.api/app}
   :uberjar-name "usps-processor.jar")
