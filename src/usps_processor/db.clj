@@ -1,9 +1,6 @@
 (ns usps-processor.db
   (:require [turbovote.datomic-toolbox :as d]))
 
-(defn find-mailing [db m]
-  (first (d/match-entities db m)))
-
 (defn scan->mailing-contraints [scan-data]
   {:mailing/serial-number-6
    (get-in scan-data [:imb-data :9-digit-mailer :serial-number])
@@ -58,7 +55,8 @@
   [scan-data]
   (let [existing-mailing-id (->> scan-data
                                  scan->mailing-contraints
-                                 (find-mailing (d/db))
+                                 (d/match-entities (d/db))
+                                 first
                                  :db/id)
         mailing-tx (if existing-mailing-id [] (scan-data->mailing-tx-data scan-data))
         mailing-id (or existing-mailing-id (some :db/id mailing-tx))]

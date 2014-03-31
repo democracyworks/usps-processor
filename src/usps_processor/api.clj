@@ -1,6 +1,5 @@
 (ns usps-processor.api
   (:require [usps-processor.data-readers]
-            [usps-processor.db :as db]
             [usps-processor.mailing :as mailing]
             [turbovote.datomic-toolbox :as d]
             [compojure.core :refer [defroutes GET]]
@@ -32,12 +31,20 @@
 
 (defn latest-scan [req]
   (let [db (d/db)
-        mailing-constraints (-> req :params params->mailing-constraints)]
-    (->> mailing-constraints
-         (db/find-mailing db)
-         mailing/latest-scan
-         mailing/render
-         edn-response)))
+        mailing-constraints (-> req :params params->mailing-constraints)
+        mailings (d/match-entities db mailing-constraints)]
+    (case (count mailings)
+      1 (-> mailings
+            first
+            mailing/latest-scan
+            mailing/render
+            edn-response)
+      0 (-> "Not found"
+          edn-response
+          (assoc :status 404))
+      (-> "Multiple matches found"
+          edn-response
+          (assoc :status 422)))))
 
 (defroutes app
   (GET "/ping" [] "pong!")
