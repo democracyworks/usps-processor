@@ -36,16 +36,16 @@
   [scan-data]
   (let [mailing-tx-map {:db/id (d/tempid)
                         :mailing/serial-number-6
-                        (get-in scan-data [:imb-data :6-digit-mailer :mailer-id])
+                        (get-in scan-data [:imb-data :9-digit-mailer :serial-number])
 
                         :mailing/mailer-id-9
-                        (get-in scan-data [:imb-data :6-digit-mailer :serial-number])
-
-                        :mailing/serial-number-9
                         (get-in scan-data [:imb-data :9-digit-mailer :mailer-id])
 
+                        :mailing/serial-number-9
+                        (get-in scan-data [:imb-data :6-digit-mailer :serial-number])
+
                         :mailing/mailer-id-6
-                        (get-in scan-data [:imb-data :9-digit-mailer :serial-number])
+                        (get-in scan-data [:imb-data :6-digit-mailer :mailer-id])
 
                         :mailing/customer-number
                         (get-in scan-data [:imb-data :customer-number])}]
