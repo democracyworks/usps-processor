@@ -29,6 +29,10 @@
    :headers {"Content-Type" "application/edn"}
    :body (pr-str body)})
 
+(defn render-scan [scan]
+  (select-keys scan [:scan/time :scan/barcode :scan/facility-zip
+                     :scan/operation-code :scan/service]))
+
 (defn latest-scan [req]
   (let [db (d/db)
         mailing-constraints (-> req :params params->mailing-constraints)
@@ -37,7 +41,7 @@
       1 (-> mailings
             first
             mailing/latest-scan
-            mailing/render
+            render-scan
             edn-response)
       0 (-> "Not found"
           edn-response
