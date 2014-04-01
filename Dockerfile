@@ -1,12 +1,12 @@
-FROM quay.io/democracyworks/clojure-api:latest
-MAINTAINER TurboVote <dev@turbovote.org>
+FROM quay.io/democracyworks/clojure-api-build:latest
 
-ONBUILD ADD ./resources/ /usps-processor/resources/
+ADD ./ /usps-processor/
 
-ADD ./target/usps-processor.jar /usps-processor/
+# the WORKDIR will be added to the container as a volume by the build script
+WORKDIR /usps-processor
 
-ADD docker/start-usps-processor-importer.sh /start-usps-processor-importer.sh
-ADD docker/supervisord-usps-processor-importer.conf /etc/supervisor/conf.d/supervisord-usps-processor-importer.conf
+VOLUME ["/servers/usps-processor/"]
 
-ADD docker/start-usps-processor-api.sh /start-usps-processor-api.sh
-ADD docker/supervisord-usps-processor-api.conf /etc/supervisor/conf.d/supervisord-usps-processor-api.conf
+ADD resources/immutant/usps-processor.clj /servers/usps-processor/
+
+CMD ["script/build-ima"]

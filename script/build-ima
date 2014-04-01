@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Exit if any command fails
+set -e
+
+# Ensure lein profile passed in
+if [[ -z $ENVIRONMENT ]]; then
+  echo "Set ENVIRONMENT as the environment you're deploying to"
+  exit 1
+fi
+
+# Enforce LEIN_USERNAME and LEIN_PASSWORD are both set
+if [[ -z $LEIN_USERNAME || -z $LEIN_PASSWORD ]]; then
+  echo "Set LEIN_USERNAME and LEIN_PASSWORD to your my.datomic.com credentials" >&2
+  exit 2
+fi
+
+lein with-profiles $ENVIRONMENT immutant archive
+
+cp target/usps-processor.ima /servers/usps-processor/
