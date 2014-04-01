@@ -13,6 +13,13 @@ echo "Building Docker image for usps-processor build..."
 docker build -t turbovote/usps-processor-build - < Dockerfile.build
 echo "Done."
 
+echo "Running tests..."
+docker run -rm -name=usps-processor-builder \
+           -v `pwd`:/usps-processor \
+           -e LEIN_USERNAME=$LEIN_USERNAME \
+           -e LEIN_PASSWORD=$LEIN_PASSWORD \
+           turbovote/usps-processor-build lein test
+
 echo "Building usps-processor..."
 
 docker run -v `pwd`:/usps-processor \

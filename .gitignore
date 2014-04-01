@@ -7,5 +7,5 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
-/dev-resources
+/dev-resources/config.edn
 /profiles.clj

@@ -1,4 +1,4 @@
-(ns usps-processor.core
+(ns usps-processor.importer
   (:require [usps-processor.s3 :as s3]
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
@@ -12,7 +12,7 @@
     (-> s3-key
         s3/reader-from-s3
         parse/parse
-        db/store-all)
+        db/store-scans)
     (info "Processed" s3-key)))
 
 (defn -main [& args]
