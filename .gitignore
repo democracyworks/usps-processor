@@ -9,4 +9,4 @@ pom.xml.asc
 /.nrepl-port
 /dev-resources/config.edn
 /profiles.clj
-/envs
+/env-configs
