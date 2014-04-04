@@ -33,26 +33,32 @@
   (select-keys scan [:scan/time :scan/barcode :scan/facility-zip
                      :scan/operation-code :scan/service]))
 
-(defn latest-scan [req]
+(defn- matched-mailing-response [req mailing->body]
   (let [db (d/db)
         mailing-constraints (-> req :params params->mailing-constraints)
         mailings (d/match-entities db mailing-constraints)]
     (case (count mailings)
-      1 (-> mailings
-            first
-            mailing/latest-scan
-            render-scan
-            edn-response)
-      0 (-> "Not found"
-          edn-response
-          (assoc :status 404))
-      (-> "Multiple matches found"
-          edn-response
-          (assoc :status 422)))))
+        1 (-> mailings
+              first
+              mailing->body
+              edn-response)
+        0 (-> "Not found"
+            edn-response
+            (assoc :status 404))
+        (-> "Multiple matches found"
+            edn-response
+            (assoc :status 422)))))
+
+(defn latest-scan [req]
+  (matched-mailing-response req (comp render-scan mailing/latest-scan)))
+
+(defn all-scans [req]
+  (matched-mailing-response req (comp (partial map render-scan) mailing/all-scans)))
 
 (defroutes app
   (GET "/ping" [] "pong!")
-  (GET "/latest-scan" [] latest-scan))
+  (GET "/latest-scan" [] latest-scan)
+  (GET "/all-scans" [] all-scans))
 
 (defn -main [& args]
   (let [port (config :api :port)]

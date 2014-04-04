@@ -1,7 +1,11 @@
 (ns usps-processor.mailing)
 
-(defn latest-scan [mailing]
+(defn all-scans [mailing]
   (->> mailing
        :scan/_mailing
-       (sort-by :scan/time)
-       last))
+       (sort-by :scan/time)))
+
+(defn latest-scan [mailing]
+  (-> mailing
+      all-scans
+      last))
