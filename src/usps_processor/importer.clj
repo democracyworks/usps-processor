@@ -17,5 +17,6 @@
 
 (defn -main [& args]
   (info "Starting up...")
-  (sqs/consume-messages (sqs/client) process-file)
-  (info "Started"))
+  (let [messages-future (sqs/consume-messages (sqs/client) process-file)]
+    (info "Started")
+    messages-future))

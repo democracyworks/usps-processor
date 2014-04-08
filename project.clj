@@ -16,9 +16,12 @@
                  [compojure "1.1.6"]
                  [javax.servlet/servlet-api "2.5"]
                  [http-kit "2.1.16"]]
+  :plugins [[lein-immutant "1.2.0"]]
   :profiles {:uberjar {:aot [usps-processor.importer
-                             usps-processor.api]}}
+                             usps-processor.api]}
+             :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
+  :ring {:handler usps-processor.api/app}
   :uberjar-name "usps-processor.jar")
