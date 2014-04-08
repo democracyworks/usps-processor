@@ -14,3 +14,10 @@
     (testing "no scans"
       (let [mailing {:scan/_mailing #{}}]
         (is (nil? (latest-scan mailing)))))))
+
+(deftest all-scans-test
+  (let [old-scan {:scan/time #inst "1999-01-01"}
+        new-scan {:scan/time #inst "2014-01-01"}
+        mailing {:scan/_mailing #{old-scan new-scan}}]
+    (testing "all scans"
+      (is (= [old-scan new-scan] (all-scans mailing))))))
