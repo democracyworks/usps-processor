@@ -24,6 +24,10 @@ build:
         code: |
           docker build -t quay.io/democracyworks/usps-processor .
     - script:
+        name: run tests
+        code: |
+          docker run -e LEIN_USERNAME=$LEIN_USERNAME -e LEIN_PASSWORD=$LEIN_PASSWORD quay.io/democracyworks/usps-processor lein test
+    - script:
         name: login to quay.io
         hide-from-log: true
         code: |

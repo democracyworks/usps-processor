@@ -15,8 +15,6 @@ if [[ -z $LEIN_USERNAME || -z $LEIN_PASSWORD ]]; then
   exit 2
 fi
 
-lein test
-
 lein with-profiles $ENVIRONMENT immutant archive
 
 cp target/usps-processor.ima /servers/usps-processor/
