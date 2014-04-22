@@ -60,8 +60,8 @@
                                  :db/id)
         mailing-tx (if existing-mailing-id [] (scan-data->mailing-tx-data scan-data))
         mailing-id (or existing-mailing-id (some :db/id mailing-tx))]
-    (d/transact (concat mailing-tx
-                        (scan-data->scan-tx-data scan-data mailing-id)))))
+    @(d/transact (concat mailing-tx
+                         (scan-data->scan-tx-data scan-data mailing-id)))))
 
 (defn store-scans [scans]
   (doseq [scan-data scans]
