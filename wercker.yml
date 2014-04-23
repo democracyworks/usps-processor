@@ -60,4 +60,4 @@ deploy:
         code: |
           ssh -i $PRIVATEKEY_PATH -o "StrictHostKeyChecking no" -p 2222 deploy@localhost "docker pull quay.io/democracyworks/usps-processor && docker run -e ENVIRONMENT=$DEPLOY_ENVIRONMENT -e LEIN_USERNAME=$LEIN_USERNAME -e LEIN_PASSWORD=$LEIN_PASSWORD quay.io/democracyworks/usps-processor"
           ssh -i $PRIVATEKEY_PATH -o "StrictHostKeyChecking no" -p 2223 deploy@localhost "docker pull quay.io/democracyworks/usps-processor && docker run -e ENVIRONMENT=$DEPLOY_ENVIRONMENT -e LEIN_USERNAME=$LEIN_USERNAME -e LEIN_PASSWORD=$LEIN_PASSWORD quay.io/democracyworks/usps-processor"
-    - cmshea/immutant-deploy@0.0.10
+    - cmshea/immutant-deploy@0.0.11
