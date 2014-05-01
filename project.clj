@@ -15,7 +15,8 @@
                  [turbovote.imbarcode "0.1.4-SNAPSHOT"]
                  [compojure "1.1.6"]
                  [javax.servlet/servlet-api "2.5"]
-                 [http-kit "2.1.16"]]
+                 [http-kit "2.1.16"]
+                 [riemann-clojure-client "0.2.9"]]
   :plugins [[lein-immutant "1.2.0"]]
   :profiles {:uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
