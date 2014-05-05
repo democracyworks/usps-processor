@@ -8,7 +8,6 @@ following shape:
 ```clojure
 {:aws {:creds {:access-key "your AWS access key"
                :secret-key "your AWS secret key"}
-       :s3 {:bucket "S3-bucket-name-where-USPS-data-is-stored"}
        :sqs {:region #aws/region "AWS_region_enum" ; see below
              :queue "your-sqs-queue"
              :fail-queue "your-sqs-failure-queue"}}

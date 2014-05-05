@@ -5,27 +5,26 @@
             [usps-processor.sqs :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
-            [riemann.client :as riemann])
+            [riemann.client :as riemann]
+            [clojure.edn :as edn])
   (:gen-class))
 
-(defn send-event [metric]
+(defn send-event [metric description]
   (when (config :riemann :host)
     (let [c (riemann/udp-client :host (config :riemann :host) :port (config :riemann :port))]
       (riemann/send-event c {:service "usps-processor scans" :metric metric
                              :tags ["usps-processor"]
-                             :description (str "Processed " metric " scans from "
-                                               (config :aws :s3 :bucket))}
+                             :description description}
                           false))))
 
 (defn process-file [message]
-  (let [s3-key (:body message)]
-    (info "Processing" s3-key)
-    (let [scans (-> s3-key
-                    s3/reader-from-s3
-                    parse/parse)]
+  (let [{:keys [bucket filename]} (edn/read-string (:body message))]
+    (info "Processing" bucket "/" filename)
+    (let [scans (parse/parse (s3/reader-from-s3 bucket filename))
+          scan-count (count scans)]
       (db/store-scans scans)
-      (send-event (count scans))
-      (info "Processed" s3-key))))
+      (send-event scan-count (str "Processed " scan-count " scans from " bucket))
+      (info "Processed" bucket "/" filename))))
 
 (defn -main [& args]
   (info "Starting up...")

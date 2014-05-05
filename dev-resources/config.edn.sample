@@ -1,6 +1,5 @@
 {:aws {:creds {:access-key "AAAA..."
                :secret-key "eCaZ5w..."}
-       :s3 {:bucket "bucket-name"}
        :sqs {:region #aws/region "US_WEST_2"
              :queue "scans"
              :fail-queue "scan-failures"}}
