@@ -1,6 +1,5 @@
 (ns usps-processor.api
-  (:require [usps-processor.data-readers]
-            [usps-processor.mailing :as mailing]
+  (:require [usps-processor.mailing :as mailing]
             [turbovote.datomic-toolbox :as d]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]

@@ -2,7 +2,7 @@
   (:require [usps-processor.s3 :as s3]
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
-            [usps-processor.sqs :as sqs]
+            [democracyworks.squishy :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
             [riemann.client :as riemann]
