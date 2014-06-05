@@ -2,6 +2,12 @@
 
 set -e
 
+# Enforce LEIN_USERNAME and LEIN_PASSWORD are both set
+if [[ -z $LEIN_USERNAME || -z $LEIN_PASSWORD ]]; then
+  echo "Set LEIN_USERNAME and LEIN_PASSWORD to your my.datomic.com credentials" >&2
+  exit 2
+fi
+
 if [[ -z $(docker ps | grep datomic-tx) ]]; then
   docker run -d --name datomic-tx quay.io/democracyworks/datomic-dev-transactor
 fi
