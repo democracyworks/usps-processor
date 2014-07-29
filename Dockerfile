@@ -1,4 +1,5 @@
-FROM quay.io/democracyworks/clojure-api-build:latest
+FROM quay.io/democracyworks/clojure-api:latest
+MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 ADD ./ /usps-processor/
 
