@@ -9,13 +9,17 @@
             [clojure.edn :as edn])
   (:gen-class))
 
+(def riemann-client
+  (memoize (fn [] (riemann/udp-client :host (config :riemann :host)
+                                      :port (config :riemann :port)))))
+
 (defn send-event [metric description]
   (when (config :riemann :host)
-    (let [c (riemann/udp-client :host (config :riemann :host) :port (config :riemann :port))]
-      (riemann/send-event c {:service "usps-processor scans" :metric metric
-                             :tags ["usps-processor"]
-                             :description description}
-                          false))))
+    (riemann/send-event (riemann-client)
+                        {:service "usps-processor scans" :metric metric
+                         :tags ["usps-processor"]
+                         :description description}
+                        false)))
 
 (defn process-file [message]
   (let [{:keys [bucket filename]} (edn/read-string (:body message))]
