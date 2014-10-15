@@ -1,4 +1,4 @@
-; from https://mailtracking.usps.com/mtr/resources/confirm/resources.pge
+; from http://www.usps.com/mailtracking/_csv/NonAutomated5Digit.csv
 {
 501 {:city "HOLTSVILLE" :state "NY"}
 544 {:city "HOLTSVILLE" :state "NY"}
