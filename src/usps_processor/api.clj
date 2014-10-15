@@ -6,7 +6,8 @@
             [org.httpkit.server :refer [run-server]]
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
-            [clojure.tools.logging :refer [info]])
+            [clojure.tools.logging :refer [info]]
+            [clojure.edn :as edn])
   (:gen-class))
 
 (def param->query-key
@@ -28,9 +29,25 @@
    :headers {"Content-Type" "application/edn"}
    :body (pr-str body)})
 
+(def zipcode->city-state
+  (-> "zipcode-city-state.edn"
+      clojure.java.io/resource
+      slurp
+      edn/read-string))
+
+(defn attach-facility-city-state [scan]
+  (assoc scan
+    :scan/facility-city-state
+    (some-> scan
+            :scan/facility-zip
+            (Integer/parseInt)
+            zipcode->city-state)))
+
 (defn render-scan [scan]
-  (select-keys scan [:scan/time :scan/barcode :scan/facility-zip
-                     :scan/operation-code :scan/service]))
+  (-> scan
+      (select-keys [:scan/time :scan/barcode :scan/facility-zip
+                    :scan/operation-code :scan/service])
+      attach-facility-city-state))
 
 (defn lookup-mailings [req]
   (let [db (d/db)
