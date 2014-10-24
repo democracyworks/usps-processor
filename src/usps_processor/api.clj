@@ -1,13 +1,13 @@
 (ns usps-processor.api
   (:require [usps-processor.mailing :as mailing]
+            [usps-processor.zip-lookup :refer [zipcode->city-state]]
             [turbovote.datomic-toolbox :as d]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
             [org.httpkit.server :refer [run-server]]
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
-            [clojure.tools.logging :refer [info]]
-            [clojure.edn :as edn])
+            [clojure.tools.logging :refer [info]])
   (:gen-class))
 
 (def param->query-key
@@ -28,12 +28,6 @@
   {:status 200
    :headers {"Content-Type" "application/edn"}
    :body (pr-str body)})
-
-(def zipcode->city-state
-  (-> "zipcode-city-state.edn"
-      clojure.java.io/resource
-      slurp
-      edn/read-string))
 
 (defn attach-facility-city-state [scan]
   (assoc scan

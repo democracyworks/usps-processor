@@ -21,9 +21,9 @@
     (let [scan {:scan/facility-zip "11215"}]
       (is (= (render-scan scan)
              {:scan/facility-zip "11215"
-              :scan/facility-city-state {:city "BROOKLYN" :state "NY"}}))))
+              :scan/facility-city-state {:city "Brooklyn" :state "NY"}}))))
   (testing "attaches the correct location for a 0-leading zipcode"
     (let [scan {:scan/facility-zip "06850"}]
       (is (= (render-scan scan)
              {:scan/facility-zip "06850"
-              :scan/facility-city-state {:city "NORWALK" :state "CT"}})))))
+              :scan/facility-city-state {:city "Norwalk" :state "CT"}})))))
