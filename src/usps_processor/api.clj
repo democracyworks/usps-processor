@@ -7,7 +7,8 @@
             [org.httpkit.server :refer [run-server]]
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
-            [clojure.tools.logging :refer [info]])
+            [clojure.tools.logging :refer [info]]
+            [democracyworks.squishy.data-readers])
   (:gen-class))
 
 (def param->query-key
