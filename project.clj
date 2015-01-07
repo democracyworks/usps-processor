@@ -18,7 +18,8 @@
                  [http-kit "2.1.16"]
                  [riemann-clojure-client "0.2.9"]]
   :plugins [[lein-immutant "1.2.0"]]
-  :profiles {:dev {:resource-paths ["dev-resources"]}
+  :profiles {:dev {:resource-paths ["dev-resources"]
+                   :source-paths ["dev-src"]}
              :docker-dev {:resource-paths ["docker-dev-resources"]}
              :uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
@@ -26,5 +27,6 @@
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
+  :aliases {"reset-db" ["run" "-m" "dev.db"]}
   :ring {:handler usps-processor.api/app}
   :uberjar-name "usps-processor.jar")

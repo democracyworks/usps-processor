@@ -8,6 +8,8 @@ You'll need a config.edn file available as a resource. See
 The valid values for `:aws :sqs :region` are the enum values listed in
 the API documentation for [com.amazonaws.regions.Regions](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/regions/Regions.html)
 
+To initialize and seed the database with a sample scan, run `lein reset-db`.
+
 ## Running it
 
 ### In docker
