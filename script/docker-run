@@ -12,4 +12,4 @@ if [[ -z $(docker ps | grep datomic-tx) ]]; then
   docker run -d --name datomic-tx quay.io/democracyworks/datomic-dev-transactor
 fi
 
-../immutant-docker/script/build-subproject ${PWD##*/} ${1:-dev} --link datomic-tx:datomic-tx
+../immutant-docker/script/build-subproject ${PWD##*/} ${1:-docker-dev} --link datomic-tx:datomic-tx

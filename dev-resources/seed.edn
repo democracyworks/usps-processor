@@ -1,0 +1,18 @@
+[
+ ;; voter-bound-mailing
+ {:db/id #db/id[:usps-processor -1]
+  :mailing/serial-number-6 "000000"
+  :mailing/serial-number-9 "000000123"
+  :mailing/mailer-id-6 "456789"
+  :mailing/mailer-id-9 "123456789"
+
+  :mailing/routing-code "802182208"}
+
+ {:db/id #db/id[:usps-processor -2]
+  :scan/mailing #db/id[:usps-processor -1]
+  :scan/facility-zip "87654"
+  :scan/operation-code "146"
+  :scan/time #inst "2014-08-06"
+  :scan/barcode "AATDADTDDFFDAFDFTADAATATFATTFAFFTDDTTFTAFAATAAAADDDDAFATDDTTTTDDA"
+  :scan/service "00"}
+]

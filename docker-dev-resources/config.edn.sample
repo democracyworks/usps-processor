@@ -4,6 +4,6 @@
        :sqs {:region #aws/region "US_WEST_2"
              :queue "scans"
              :fail-queue "scan-failures"}}
- :datomic {:uri "datomic:dev://localhost:4334/usps-processor"
+ :datomic {:uri "datomic:dev://datomic-tx:4334/usps-processor"
            :partition :usps-processor}
  :api {:port 8082}}
