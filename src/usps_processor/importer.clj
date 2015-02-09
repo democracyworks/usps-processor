@@ -2,6 +2,7 @@
   (:require [usps-processor.s3 :as s3]
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
+            [usps-processor.queue :as queue]
             [democracyworks.squishy :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
@@ -27,11 +28,13 @@
     (let [scans (parse/parse (s3/reader-from-s3 bucket filename))
           scan-count (count scans)]
       (db/store-scans scans)
+      (queue/publish-scans scans)
       (send-event scan-count (str "Processed " scan-count " scans from " bucket))
       (info "Processed" bucket "/" filename))))
 
 (defn -main [& args]
   (info "Starting up...")
+  (queue/initialize)
   (let [messages-future (sqs/consume-messages (sqs/client) process-file)]
     (info "Started")
     messages-future))

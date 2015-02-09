@@ -1,6 +1,5 @@
 (ns usps-processor.mailing)
 
-
 (defn all-scans [mailing]
   (->> mailing
        :scan/_mailing
