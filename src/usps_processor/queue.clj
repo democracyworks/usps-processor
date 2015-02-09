@@ -21,7 +21,6 @@
 
 (defn publish-scan
   [scan-data]
-  (println "Publishing scan event:" scan-data)
   (lb/publish @channel events-exchange "usps-scans" (pr-str scan-data)))
 
 (defn publish-scans
