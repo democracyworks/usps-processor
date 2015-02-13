@@ -6,6 +6,7 @@
             [democracyworks.squishy :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
+            [turbovote.datomic-toolbox :as d]
             [riemann.client :as riemann]
             [clojure.edn :as edn])
   (:gen-class))
@@ -34,6 +35,7 @@
 
 (defn -main [& args]
   (info "Starting up...")
+  (d/initialize)
   (queue/initialize)
   (let [messages-future (sqs/consume-messages (sqs/client) process-file)]
     (info "Started")

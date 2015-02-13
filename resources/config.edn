@@ -1,0 +1,10 @@
+{:aws {:creds {:access-key #resource-config/env "AWS_ACCESS_KEY"
+               :secret-key #resource-config/env "AWS_SECRET_KEY"}
+       :s3 {:bucket #resource-config/env "USPS_S3_BUCKET"}
+       :sqs {:region #aws/region #resource-config/env "USPS_SQS_REGION"
+             :queue #resource-config/env "USPS_SQS_QUEUE"
+             :fail-queue #resource-config/env "USPS_SQS_FAIL_QUEUE"}}
+ :datomic {:uri #resource-config/env "USPS_DATOMIC_URI"
+           :partition :usps-processor}
+ :rabbit-mq {:connection {:host #resource-config/env "QUEUE_PORT_5672_TCP_ADDR"
+                          :port #resource-config/edn #resource-config/env "QUEUE_PORT_5672_TCP_PORT"}}}
