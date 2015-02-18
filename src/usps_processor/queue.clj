@@ -5,7 +5,8 @@
             [langohr.exchange  :as le]
             [langohr.consumers :as lc]
             [langohr.basic     :as lb]
-            [turbovote.resource-config :refer [config]]))
+            [turbovote.resource-config :refer [config]]
+            [clojure.tools.logging :refer [info]]))
 
 (def channel (atom nil))
 
@@ -21,6 +22,7 @@
 
 (defn publish-scan
   [scan-data]
+  (info "Publishing scan to usps-scans topic:" scan-data)
   (lb/publish @channel events-exchange "usps-scans" (pr-str scan-data)))
 
 (defn publish-scans
