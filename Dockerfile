@@ -9,4 +9,4 @@ VOLUME ["/servers/usps-processor/"]
 
 ADD resources/immutant/usps-processor.clj /servers/usps-processor/
 
-CMD ["script/build-ima"]
+CMD ["sh", "-c", "lein with-profile $ENVIRONMENT run"]
