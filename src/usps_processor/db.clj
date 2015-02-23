@@ -68,5 +68,4 @@
                (db/resolve-tempid (:db-after tx) (:tempids tx) scan-id))))
 
 (defn store-scans [scans]
-  (doseq [scan-data scans]
-    (store-scan scan-data)))
+  (doall (map store-scan scans)))
