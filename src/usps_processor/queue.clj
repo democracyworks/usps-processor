@@ -23,8 +23,8 @@
 
 (defn publish-scan
   [scan]
-  (let [rendered-scan (render-scan scan)]
-    (info "Publishing scan event to usps-scans topic: " rendered-scan)
+  (let [rendered-scan (render-scan scan :attach-mailing)]
+    (info "Publishing scan event to usps-scans topic: " (pr-str rendered-scan))
     (lb/publish @channel events-exchange "usps-scans"
                 (pr-str rendered-scan) {:content-type "application/edn"})))
 
