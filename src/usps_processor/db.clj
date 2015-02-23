@@ -1,5 +1,6 @@
 (ns usps-processor.db
-  (:require [turbovote.datomic-toolbox :as d]))
+  (:require [turbovote.datomic-toolbox :as d]
+            [datomic.api :as db]))
 
 (defn scan->mailing-contraints [scan-data]
   {:mailing/serial-number-6
@@ -58,10 +59,13 @@
                                  (d/match-entities (d/db))
                                  first
                                  :db/id)
-        mailing-tx (if existing-mailing-id [] (scan-data->mailing-tx-data scan-data))
-        mailing-id (or existing-mailing-id (some :db/id mailing-tx))]
-    @(d/transact (concat mailing-tx
-                         (scan-data->scan-tx-data scan-data mailing-id)))))
+        mailing-tx-data (if existing-mailing-id [] (scan-data->mailing-tx-data scan-data))
+        mailing-id (or existing-mailing-id (some :db/id mailing-tx-data))
+        scan-tx-data (scan-data->scan-tx-data scan-data mailing-id)
+        scan-id (some :db/id scan-tx-data)
+        tx @(d/transact (concat mailing-tx-data scan-tx-data))]
+    (db/entity (:db-after tx)
+               (db/resolve-tempid (:db-after tx) (:tempids tx) scan-id))))
 
 (defn store-scans [scans]
   (doseq [scan-data scans]
