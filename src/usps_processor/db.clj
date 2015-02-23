@@ -2,7 +2,7 @@
   (:require [turbovote.datomic-toolbox :as d]
             [datomic.api :as db]))
 
-(defn scan->mailing-contraints [scan-data]
+(defn scan->mailing-constraints [scan-data]
   {:mailing/serial-number-6
    (get-in scan-data [:imb-data :9-digit-mailer :serial-number])
    :mailing/serial-number-9
@@ -55,7 +55,7 @@
 (defn store-scan
   [scan-data]
   (let [existing-mailing-id (->> scan-data
-                                 scan->mailing-contraints
+                                 scan->mailing-constraints
                                  (d/match-entities (d/db))
                                  first
                                  :db/id)
