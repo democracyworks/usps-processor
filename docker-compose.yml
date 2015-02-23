@@ -1,0 +1,20 @@
+app:
+  build: .
+  environment:
+    ENVIRONMENT: docker-dev
+    LEIN_USERNAME:
+    LEIN_PASSWORD:
+    USPS_DATOMIC_URI: datomic:dev://datomic:4334/usps-processor
+    USPS_S3_BUCKET: democracyworks-s3-ftp-test
+    USPS_SQS_QUEUE: s3-ftp-test
+    USPS_SQS_FAIL_QUEUE: s3-ftp-test-fail
+    USPS_SQS_REGION: US_WEST_2
+    AWS_ACCESS_KEY:
+    AWS_SECRET_KEY:
+  links:
+    - queue
+    - datomic
+queue:
+  image: rabbitmq:latest
+datomic:
+  image: quay.io/democracyworks/datomic-tx:0.9.5130
