@@ -7,6 +7,7 @@
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
             [turbovote.datomic-toolbox :as d]
+            [datomic.api :as datomic]
             [riemann.client :as riemann]
             [clojure.edn :as edn])
   (:gen-class))
@@ -27,9 +28,9 @@
   (let [{:keys [bucket filename]} (edn/read-string (:body message))]
     (info "Processing" bucket "/" filename)
     (let [scans (parse/parse (s3/reader-from-s3 bucket filename))
-          scan-count (count scans)]
-      (db/store-scans scans)
-      (queue/publish-scans scans)
+          scan-count (count scans)
+          stored-scans (db/store-scans scans)]
+      (queue/publish-scans (map datomic/touch stored-scans))
       (send-event scan-count (str "Processed " scan-count " scans from " bucket))
       (info "Processed" bucket "/" filename))))
 
