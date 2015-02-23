@@ -5,7 +5,6 @@ app:
     LEIN_USERNAME:
     LEIN_PASSWORD:
     USPS_DATOMIC_URI: datomic:dev://datomic:4334/usps-processor
-    USPS_S3_BUCKET: democracyworks-s3-ftp-test
     USPS_SQS_QUEUE: s3-ftp-test
     USPS_SQS_FAIL_QUEUE: s3-ftp-test-fail
     USPS_SQS_REGION: US_WEST_2
