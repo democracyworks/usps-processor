@@ -21,7 +21,6 @@
   :plugins [[lein-immutant "1.2.0"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
-             :docker-dev {:resource-paths ["docker-dev-resources"]}
              :uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
              :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}

@@ -1,7 +1,7 @@
 app:
   build: .
   environment:
-    ENVIRONMENT: docker-dev
+    ENVIRONMENT: dev
     LEIN_USERNAME:
     LEIN_PASSWORD:
     USPS_DATOMIC_URI: datomic:dev://datomic:4334/usps-processor
