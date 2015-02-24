@@ -30,7 +30,7 @@
     (let [scans (parse/parse (s3/reader-from-s3 bucket filename))
           scan-count (count scans)
           stored-scans (db/store-scans scans)]
-      (queue/publish-scans (map datomic/touch stored-scans))
+      (queue/publish-scans stored-scans)
       (send-event scan-count (str "Processed " scan-count " scans from " bucket))
       (info "Processed" bucket "/" filename))))
 
