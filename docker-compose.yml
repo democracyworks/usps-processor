@@ -1,7 +1,6 @@
 app:
   build: .
   environment:
-    - ENVIRONMENT
     - LEIN_USERNAME
     - LEIN_PASSWORD
     - USPS_DATOMIC_URI

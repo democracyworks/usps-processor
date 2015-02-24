@@ -13,9 +13,6 @@ To initialize and seed the database with a sample scan, run `lein reset-db`.
 
 Export your config environment variables:
 
-1. ENVIRONMENT
-    1. "dev" is a good starting point
-    1. this determines the lein profile to run under
 1. Your AWS access key and secret key
     1. `export AWS_ACCESS_KEY=...`
     1. `export AWS_SECRET_KEY=...`
