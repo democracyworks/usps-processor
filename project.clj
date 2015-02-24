@@ -8,7 +8,7 @@
                  [org.slf4j/slf4j-simple "1.7.6"]
                  [turbovote.resource-config "0.1.4"]
                  [turbovote.datomic-toolbox "0.2.5-SNAPSHOT" :exclusions [com.datomic/datomic-pro]]
-                 [com.datomic/datomic-pro "0.9.4766.11" :exclusions [org.slf4j/slf4j-nop]]
+                 [com.datomic/datomic-pro "0.9.5130" :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.8"]
                  [democracyworks.squishy "1.0.0"]
                  [org.clojure/data.csv "0.1.2"]
@@ -21,7 +21,6 @@
   :plugins [[lein-immutant "1.2.0"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
-             :docker-dev {:resource-paths ["docker-dev-resources"]}
              :uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
              :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}
