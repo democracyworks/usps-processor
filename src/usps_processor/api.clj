@@ -39,14 +39,11 @@
             zipcode->city-state)))
 
 (defn render-scan
-  [scan & [attach-mailing]]
-  (let [scan-render (-> scan
-                        (select-keys [:scan/time :scan/barcode :scan/facility-zip
-                                      :scan/operation-code :scan/service])
-                        attach-facility-city-state)]
-    (if attach-mailing
-      (merge (mailing/render (mailing/scan->mailing scan)) scan-render)
-      scan-render)))
+  [scan]
+  (-> scan
+      (select-keys [:scan/time :scan/barcode :scan/facility-zip
+                    :scan/operation-code :scan/service])
+      attach-facility-city-state))
 
 (defn lookup-mailings [req]
   (let [db (d/db)
