@@ -11,7 +11,8 @@
 (defn render [mailing]
   (-> mailing
       (select-keys [:mailing/mailer-id-9 :mailing/mailer-id-6
-                    :mailing/serial-number-6 :mailing/serial-number-9])))
+                    :mailing/serial-number-6 :mailing/serial-number-9
+                    :mailing/customer-number :mailing/routing-code])))
 
 (defn all-scans [mailing]
   (->> mailing
