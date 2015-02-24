@@ -13,18 +13,33 @@ To initialize and seed the database with a sample scan, run `lein reset-db`.
 
 Export your config environment variables:
 
+1. ENVIRONMENT
+    1. "dev" is a good starting point
+    1. this determines the lein profile to run under
 1. Your AWS access key and secret key
     1. `export AWS_ACCESS_KEY=...`
     1. `export AWS_SECRET_KEY=...`
 1. Your Datomic Pro download credentials
     1. `export LEIN_USERNAME=...`
     1. `export LEIN_PASSWORD=...`
+1. USPS_DATOMIC_URI
+    1. "datomic:dev://datomic:4334/usps-processor" works well for running under docker-compose
+1. USPS_SQS_REGION
+    1. "US_WEST_2" or "US_EAST_1" or whatever region you want in all caps
+1. USPS_SQS_QUEUE
+    1. Name of the SQS queue to monitor for incoming scan data uploads from the USPS
+1. USPS_SQS_FAIL_QUEUE
+    1. Name of the queue to put failures on
 
 Then run `docker-compose up`.
 This will build the app, download and run dependent containers, and start everything up.
 
 If you change anything in the app, rebuild it with `docker-compose build app` and then re-run
 `docker-compose up`
+
+NOTE: The Datomic image referenced in `docker-compose.yml` is a private image for internal use by
+Democracy Works employees. If you want to use this you'll either need your own Datomic Pro license
+or switch to Datomic Free.
 
 ### Standalone
 
