@@ -1,0 +1,2 @@
+{:datomic {:uri "datomic:mem://usps-processor"
+           :partition :usps-processor}}

@@ -7,7 +7,7 @@
         new-scan {:scan/time #inst "2014-01-01"}]
     (testing "multiple scans"
       (let [mailing {:scan/_mailing #{old-scan new-scan}}]
-        (is (=  new-scan (latest-scan mailing)))))
+        (is (= new-scan (latest-scan mailing)))))
     (testing "one scan"
       (let [mailing {:scan/_mailing #{old-scan}}]
         (is (= old-scan (latest-scan mailing)))))
