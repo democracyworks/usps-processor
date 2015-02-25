@@ -8,7 +8,6 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 /dev-resources/config.edn
-/docker-dev-resources/config.edn
 /profiles.clj
 /env-configs
 *.cid
