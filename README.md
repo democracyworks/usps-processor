@@ -52,5 +52,25 @@ http://www.usps.com/mailtracking/_csv/NonAutomated5Digit.csv and transform it in
 to maps of the city and state. Note that some zipcodes appear multiple times. The existing file has made the decision
 to take the first instance of a zipcode and remove all later ones.
 
+## RabbitMQ events
+
+usps-processor sends RabbitMQ messages to an "events" topic exchange. These
+messages represent individual scans from the USPS (one scan on one mailing).
+
+The message payloads are EDN-encoded Clojure maps that look like this:
+
+```clojure
+{:scan/facility-city-state {:city "Denver", :state "CO"}
+ :scan/facility-zip "80211"
+ :mailing/mailer-id-9 "123456789"
+ :scan/service "040"
+ :scan/time #inst "2015-02-24T00:00:00.000-00:00"
+ :scan/barcode "000"
+ :scan/operation-code "895"
+ :mailing/serial-number-6 "654321"
+ :mailing/serial-number-9 "789654321"
+ :mailing/mailer-id-6 "123456"}
+```
+
 
 Copyright © 2014 Democracy Works, Inc.
