@@ -10,9 +10,9 @@ app:
     - AWS_ACCESS_KEY
     - AWS_SECRET_KEY
   links:
-    - queue
+    - rabbitmq
     - datomic
-queue:
-  image: rabbitmq:latest
+rabbitmq:
+  image: rabbitmq:3.4.3-management
 datomic:
   image: quay.io/democracyworks/datomic-tx:0.9.5130
