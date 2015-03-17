@@ -5,7 +5,10 @@
             [langohr.exchange  :as le]
             [langohr.consumers :as lc]
             [langohr.basic     :as lb]
-            [turbovote.resource-config :refer [config]]))
+            [turbovote.resource-config :refer [config]]
+            [usps-processor.api :refer [render-scan]]
+            [clojure.tools.logging :refer [info]]
+            [usps-processor.mailing :as mailing]))
 
 (def channel (atom nil))
 
@@ -20,10 +23,17 @@
     (le/declare ch events-exchange "topic" {:durable true :auto-delete false})))
 
 (defn publish-scan
-  [scan-data]
-  (lb/publish @channel events-exchange "usps-scans" (pr-str scan-data)))
+  [scan]
+  (let [mailing (mailing/scan->mailing scan)
+        rendered-scan (render-scan scan)
+        rendered-mailing (mailing/render mailing)
+        event (merge rendered-scan rendered-mailing)
+        edn (pr-str event)]
+    (info "Publishing scan event to usps-scans topic: " edn)
+    (lb/publish @channel events-exchange "usps-scans" edn
+                {:content-type "application/edn"})))
 
 (defn publish-scans
   [scans]
-  (doseq [scan-data scans]
-    (publish-scan scan-data)))
+  (doseq [scan scans]
+    (publish-scan scan)))

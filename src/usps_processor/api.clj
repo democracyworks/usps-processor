@@ -38,7 +38,8 @@
             (Integer/parseInt)
             zipcode->city-state)))
 
-(defn render-scan [scan]
+(defn render-scan
+  [scan]
   (-> scan
       (select-keys [:scan/time :scan/barcode :scan/facility-zip
                     :scan/operation-code :scan/service])
