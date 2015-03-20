@@ -4,7 +4,7 @@
             [turbovote.datomic-toolbox :as d]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
-            [org.httpkit.server :refer [run-server]]
+            [immutant.web :refer [run]]
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
             [clojure.tools.logging :refer [info]]
@@ -80,4 +80,4 @@
 (defn -main [& args]
   (let [port (config :api :port)]
     (info "API Server starting up on port" port)
-    (run-server (site app) {:port port})))
+    (run (site app) {:port port})))
