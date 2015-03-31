@@ -10,18 +10,23 @@
                  [turbovote.datomic-toolbox "0.2.5-SNAPSHOT" :exclusions [com.datomic/datomic-pro]]
                  [com.datomic/datomic-pro "0.9.5130" :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.8"]
+                 [clj-time "0.9.0"]
                  [democracyworks.squishy "1.0.0"]
                  [org.clojure/data.csv "0.1.2"]
-                 [turbovote.imbarcode "0.1.4-SNAPSHOT"]
+                 [turbovote.imbarcode "0.1.4-SNAPSHOT"
+                  :exclusions [org.clojure/clojure]]
                  [compojure "1.1.6"]
+                 [ring/ring-core "1.3.2"]
                  [javax.servlet/servlet-api "2.5"]
-                 [http-kit "2.1.16"]
+                 [org.immutant/web "2.0.0-beta2"]
                  [riemann-clojure-client "0.2.9"]
                  [com.novemberain/langohr "3.0.1"]]
-  :plugins [[lein-immutant "1.2.0"]]
+  :plugins [[lein-immutant "2.0.0-beta1"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
-             :test {:resource-paths ["test-resources"]}
+             :test {:resource-paths ["test-resources"]
+                    :source-paths ["test-src"]
+                    :main test.main}
              :uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
              :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}
