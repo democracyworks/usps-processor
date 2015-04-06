@@ -12,21 +12,14 @@
 (defn start-importer []
   (swap! messages-future (fn [mf]
                            (when mf (future-cancel mf))
-                           (importer/-main))))
+                           (importer/-main) ;; returns a new future
+                           )))
 
 (defn stop-importer []
-  (swap! messages-future #(when %
-                            (future-cancel %)
-                            nil)))
-
-(defn start-web-server []
-  (swap! api-server (fn [as]
-                      (when as (web/stop as))
-                      (api/-main))))
-
-(defn stop-web-server []
-  (swap! api-server #(when %
-                       (web/stop %))))
+  (swap! messages-future (fn [mf]
+                           (when mf
+                             (future-cancel mf))
+                           nil)))
 
 (defn -main [& args]
   (info "Starting immutant daemon for importer")
