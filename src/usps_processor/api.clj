@@ -8,7 +8,8 @@
             [turbovote.resource-config :refer [config]]
             [clojure.set :as set]
             [clojure.tools.logging :refer [info]]
-            [democracyworks.squishy.data-readers])
+            [democracyworks.squishy.data-readers]
+            [clojure.instant :as instant])
   (:gen-class))
 
 (def param->query-key
@@ -66,7 +67,11 @@
 
 (defn latest-scan [req]
   (on-single-match (lookup-mailings req)
-                   (comp render-scan mailing/latest-scan)))
+                   (if-let [scanned-since (get-in req [:params :scanned-since])]
+                     (let [parsed-time (instant/parse-timestamp scanned-since)]
+                       #(render-scan
+                         (mailing/latest-scan-since % parsed-time)))
+                     (comp render-scan mailing/latest-scan))))
 
 (defn all-scans [req]
   (on-single-match (lookup-mailings req)
