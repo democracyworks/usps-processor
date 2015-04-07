@@ -58,7 +58,8 @@
             first
             match->body
             edn-response)
-      0 (-> "Not found"
+      0
+      (-> "Not found"
           edn-response
           (assoc :status 404))
       (-> "Multiple matches found"
@@ -66,16 +67,39 @@
           (assoc :status 422))))
 
 (defn latest-scan [req]
-  (on-single-match (lookup-mailings req)
-                   (if-let [scanned-since (get-in req [:params :scanned-since])]
-                     (let [parsed-time (instant/parse-timestamp scanned-since)]
-                       #(render-scan
-                         (mailing/latest-scan-since % parsed-time)))
-                     (comp render-scan mailing/latest-scan))))
+  (let [matches (lookup-mailings req)]
+    (cond
+       (empty? matches)
+       (-> "Not found"
+          edn-response
+          (assoc :status 404))
+
+       (> (count matches) 1)
+       (-> "Multiple matches found"
+          edn-response
+          (assoc :status 422))
+
+       ;; here we know there is one match
+       (not (get-in req [:params :scanned-since]))
+       (edn-response (render-scan (mailing/latest-scan (first matches))))
+
+       :else
+       (let [parsed-time (instant/read-instant-date
+                            (get-in req [:params :scanned-since]))
+             the-scan (mailing/latest-scan-since (first matches) parsed-time)]
+         (if the-scan
+           (edn-response (render-scan the-scan))
+           (-> "Not found"
+               edn-response
+               (assoc :status 404)))))))
 
 (defn all-scans [req]
   (on-single-match (lookup-mailings req)
-                   (comp (partial map render-scan) mailing/all-scans)))
+                   (if-let [scanned-since (get-in req [:params :scanned-since])]
+                     (let [parsed-time (instant/read-instant-date scanned-since)]
+                       #(map render-scan
+                          (mailing/all-scans-since % parsed-time)))
+                     (comp (partial map render-scan) mailing/all-scans))))
 
 (defroutes app
   (GET "/ping" [] "pong!")
