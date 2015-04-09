@@ -29,8 +29,3 @@
   (-> mailing
       all-scans
       last))
-
-(defn latest-scan-since [mailing time]
-  (-> mailing
-      (all-scans-since time)
-      last))

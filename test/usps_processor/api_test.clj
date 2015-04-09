@@ -84,8 +84,8 @@
                  (:body (all-scans {:params {:customer-number "123"
                                              :scanned-since "1999-12-01"}})))))))
   (testing "returns no scans older than scanned-since date"
-    (is (= []
-           (map :scan/time
-                (clojure.edn/read-string
-                 (:body (all-scans {:params {:customer-number "123"
-                                             :scanned-since "2015-12-01"}}))))))))
+    (println (all-scans {:params {:customer-number "123"
+                                  :scanned-since "2015-12-01"}}))
+    (is (= 404
+           (:status (all-scans {:params {:customer-number "123"
+                                         :scanned-since "2015-12-01"}}))))))
