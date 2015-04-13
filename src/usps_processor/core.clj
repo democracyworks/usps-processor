@@ -25,6 +25,5 @@
   (info "Starting importer thread")
   (.start (Thread. start-importer))
   (immutant.util/at-exit stop-importer)
-  ;;(singleton-daemon "usps-processor.importer" start-importer stop-importer)
   (info "Starting api server")
   (api/-main))
