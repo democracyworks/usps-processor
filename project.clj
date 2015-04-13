@@ -33,6 +33,6 @@
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
-  :main usps-processor.importer
+  :main usps-processor.core
   :aliases {"reset-db" ["run" "-m" "dev.db"]}
   :ring {:handler usps-processor.api/app})
