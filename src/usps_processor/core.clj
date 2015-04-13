@@ -1,8 +1,8 @@
 (ns usps-processor.core
   (:require [usps-processor.api :as api]
             [usps-processor.importer :as importer]
-            [immutant.daemons :refer [singleton-daemon]]
             [immutant.web :as web]
+            [immutant.util]
             [clojure.tools.logging :refer [info]])
   (:gen-class))
 
@@ -22,7 +22,9 @@
                            nil)))
 
 (defn -main [& args]
-  (info "Starting immutant daemon for importer")
-  (singleton-daemon "usps-processor.importer" start-importer stop-importer)
+  (info "Starting importer thread")
+  (.start (Thread. start-importer))
+  (immutant.util/at-exit stop-importer)
+  ;;(singleton-daemon "usps-processor.importer" start-importer stop-importer)
   (info "Starting api server")
   (api/-main))
