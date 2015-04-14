@@ -5,24 +5,26 @@
             [datomic.api :as db]
             [turbovote.resource-config :refer [config]]))
 
-(use-fixtures :each (fn [test]
-                      (db/delete-database (config :datomic :uri))
-                      (d/initialize)
-                      ;; ensure db is empty
-                      (assert (= 404 (:status (latest-scan {:params {:customer-number "123"}}))))
-                      (let [mailing-id (db/tempid :db.part/user)
-                            scan1 (db/tempid :db.part/user)
-                            scan2 (db/tempid :db.part/user)
-                            scan3 (db/tempid :db.part/user)]
-                        @(db/transact (d/connection) [{:mailing/customer-number "123" :db/id mailing-id}
-                                                      {:scan/time #inst "1999-01-01" :db/id scan1
-                                                       :scan/mailing mailing-id}
-                                                      {:scan/time #inst "2000-01-01" :db/id scan2
-                                                       :scan/mailing mailing-id}
-                                                      {:scan/time #inst "2001-01-01" :db/id scan3
-                                                       :scan/mailing mailing-id}]))
-                      (test)
-                      (db/delete-database (config :datomic :uri))))
+(use-fixtures :each
+  (fn [test]
+    (db/delete-database (config :datomic :uri))
+    (d/initialize)
+    ;; ensure db is empty
+    (assert (= 404 (:status (latest-scan {:params {:customer-number "123"}}))))
+    (let [mailing-id (db/tempid :db.part/user)
+          scan1 (db/tempid :db.part/user)
+          scan2 (db/tempid :db.part/user)
+          scan3 (db/tempid :db.part/user)]
+      @(db/transact (d/connection)
+                    [{:mailing/customer-number "123" :db/id mailing-id}
+                     {:scan/time #inst "1999-01-01" :db/id scan1
+                      :scan/mailing mailing-id}
+                     {:scan/time #inst "2000-01-01" :db/id scan2
+                      :scan/mailing mailing-id}
+                     {:scan/time #inst "2001-01-01" :db/id scan3
+                      :scan/mailing mailing-id}]))
+    (test)
+    (db/delete-database (config :datomic :uri))))
 
 (deftest on-single-match-test
   (testing "200 response"
