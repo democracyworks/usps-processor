@@ -24,7 +24,6 @@
                       (test)
                       (db/delete-database (config :datomic :uri))))
 
-(comment
 (deftest on-single-match-test
   (testing "200 response"
     (let [resp (on-single-match [1] inc)]
@@ -37,7 +36,7 @@
   (testing "422 response"
     (let [resp (on-single-match [:one :two] identity)]
       (is (= (:status resp) 422))
-      (is (= (:body resp) "\"Multiple matches found\""))))))
+      (is (= (:body resp) "\"Multiple matches found\"")))))
 
 (deftest render-scan-test
   (testing "attaches the scan location"
@@ -84,8 +83,6 @@
                  (:body (all-scans {:params {:customer-number "123"
                                              :scanned-since "1999-12-01"}})))))))
   (testing "returns no scans older than scanned-since date"
-    (println (all-scans {:params {:customer-number "123"
-                                  :scanned-since "2015-12-01"}}))
     (is (= 404
            (:status (all-scans {:params {:customer-number "123"
                                          :scanned-since "2015-12-01"}}))))))
