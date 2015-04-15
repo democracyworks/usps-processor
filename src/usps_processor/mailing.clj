@@ -19,6 +19,12 @@
        :scan/_mailing
        (sort-by :scan/time)))
 
+(defn all-scans-since [mailing time]
+  (->> mailing
+       :scan/_mailing
+       (filter #(not (pos? (compare time (:scan/time %)))))
+       (sort-by :scan/time)))
+
 (defn latest-scan [mailing]
   (-> mailing
       all-scans

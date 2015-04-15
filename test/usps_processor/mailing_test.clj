@@ -18,6 +18,21 @@
 (deftest all-scans-test
   (let [old-scan {:scan/time #inst "1999-01-01"}
         new-scan {:scan/time #inst "2014-01-01"}
-        mailing {:scan/_mailing #{old-scan new-scan}}]
-    (testing "all scans"
+        mailing {:scan/_mailing [old-scan new-scan]}]
+    (testing "all scans in order"
+      (is (= [old-scan new-scan] (all-scans mailing)))))
+  (let [old-scan {:scan/time #inst "1999-01-01"}
+        new-scan {:scan/time #inst "2014-01-01"}
+        mailing {:scan/_mailing [new-scan old-scan]}]
+    (testing "all scans out of order"
       (is (= [old-scan new-scan] (all-scans mailing))))))
+
+(deftest all-scans-since-test
+  (let [old-scan {:scan/time #inst "1999-01-01"}
+        new-scan {:scan/time #inst "2014-01-01"}
+        mailing {:scan/_mailing #{old-scan new-scan}}]
+    (testing "all scans since"
+      (is (= [old-scan new-scan] (all-scans-since mailing #inst "1998-01-01")))
+      (is (= [old-scan new-scan] (all-scans-since mailing #inst "1999-01-01")))
+      (is (= [new-scan] (all-scans-since mailing #inst "2014-01-01")))
+      (is (empty? (all-scans-since mailing #inst "2015-01-01"))))))
