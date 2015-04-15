@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z $SERVICE ]]; then
+  SERVICE=${PWD##*/}
+fi
+
+echo $SERVICE
+
+if [[ -z $DOCKER_REPO && -n $1 ]]; then
+  DOCKER_REPO=$1
+fi
+
+if [[ -z $DOCKER_REPO ]]; then
+  DOCKER_REPO=$(grep 'Environment=DOCKER_REPO=' ${SERVICE}@.service | awk -F\= '{print $3}')
+fi
+
+if [[ -z $DOCKER_REPO ]]; then
+  echo 'Docker repo argument is required (or set the DOCKER_REPO env var).'
+  exit 1
+fi
+
+echo '--- building docker image'
+if [[ -z $BUILDKITE_BRANCH ]]; then
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+else
+  BRANCH=$BUILDKITE_BRANCH
+fi
+
+if [[ -z $BUILDKITE_COMMIT ]]; then
+  COMMIT=HEAD
+else
+  COMMIT=$BUILDKITE_COMMIT
+fi
+
+IMAGE_TAG=${BRANCH}-$(git rev-parse --short ${COMMIT})
+
+echo "Building ${DOCKER_REPO}:${IMAGE_TAG}"
+docker build -t $DOCKER_REPO:$IMAGE_TAG .
+
+if [[ $CI = "true" && $BUILDKITE_PULL_REQUEST = "false" ]]; then
+  echo '--- pushing docker image to registry'
+  docker push $DOCKER_REPO:$IMAGE_TAG
+else
+  echo "If you'd like to push this to the Docker repo, run: docker push ${DOCKER_REPO}:${IMAGE_TAG}"
+fi
+
+echo '--- saving docker image tag'
+if hash buildkite-agent 2>/dev/null ; then
+  buildkite-agent meta-data set docker-image "${DOCKER_REPO}:${IMAGE_TAG}"
+fi
