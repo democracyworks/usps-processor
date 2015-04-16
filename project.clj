@@ -25,8 +25,7 @@
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
              :test {:resource-paths ["test-resources"]
-                    :source-paths ["test-src"]
-                    :main test.main}
+                    :main usps-processor.core/test-main}
              :uberjar {:aot [usps-processor.importer
                              usps-processor.api]}
              :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}

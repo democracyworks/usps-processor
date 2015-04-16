@@ -27,3 +27,6 @@
   (immutant.util/at-exit stop-importer)
   (info "Starting api server")
   (api/-main))
+
+(defn test-main [& args]
+  nil)
