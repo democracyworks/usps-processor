@@ -3,9 +3,14 @@ MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 ADD project.clj /usps-processor/
 WORKDIR /usps-processor
-RUN lein deps
+
+ADD lein_deps /usps-processor/
+
+RUN bash /usps-processor/lein_deps
 
 ADD ./ /usps-processor/
+
+RUN rm /usps-processor/lein_deps
 
 RUN lein test
 RUN lein immutant war
