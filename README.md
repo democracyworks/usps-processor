@@ -2,9 +2,6 @@
 
 ## Setup
 
-You'll need a config.edn file available as a resource. See
-`dev-resources/config.edn.sample` for guidance.
-
 The valid values for `:aws :sqs :region` are the enum values listed in
 the API documentation for [com.amazonaws.regions.Regions](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/regions/Regions.html)
 
@@ -14,13 +11,32 @@ To initialize and seed the database with a sample scan, run `lein reset-db`.
 
 ### In docker
 
-Create a `docker-dev-resources/config.edn` file based on the sample
-file there. The `datomic` value is appropriate for running inside
-Docker.
+Export your config environment variables:
 
-1. Set up [immutant-docker](https://github.com/turbovote/immutant-docker)
-as specified in its README.
-2. `./script/docker-run`
+1. Your AWS access key and secret key
+    1. `export AWS_ACCESS_KEY=...`
+    1. `export AWS_SECRET_KEY=...`
+1. Your Datomic Pro download credentials
+    1. `export LEIN_USERNAME=...`
+    1. `export LEIN_PASSWORD=...`
+1. USPS_DATOMIC_URI
+    1. "datomic:dev://datomic:4334/usps-processor" works well for running under docker-compose
+1. USPS_SQS_REGION
+    1. "US_WEST_2" or "US_EAST_1" or whatever region you want in all caps
+1. USPS_SQS_QUEUE
+    1. Name of the SQS queue to monitor for incoming scan data uploads from the USPS
+1. USPS_SQS_FAIL_QUEUE
+    1. Name of the queue to put failures on
+
+Then run `docker-compose up`.
+This will build the app, download and run dependent containers, and start everything up.
+
+If you change anything in the app, rebuild it with `docker-compose build app` and then re-run
+`docker-compose up`
+
+NOTE: The Datomic image referenced in `docker-compose.yml` is a private image for internal use by
+Democracy Works employees. If you want to use this you'll either need your own Datomic Pro license
+or switch to Datomic Free.
 
 ### Standalone
 
@@ -38,6 +54,8 @@ lein run -m usps-processor.api
 
 ### Immutant
 
+> Immutant is currently disabled pending an upgrade to Immutant 2.
+
 To run both in Immutant:
 
 ```sh
@@ -51,6 +69,26 @@ To update resources/zipcode-city-state.edn, in the case that the USPS releases n
 http://www.usps.com/mailtracking/_csv/NonAutomated5Digit.csv and transform it into an edn map from integer zipcodes
 to maps of the city and state. Note that some zipcodes appear multiple times. The existing file has made the decision
 to take the first instance of a zipcode and remove all later ones.
+
+## RabbitMQ events
+
+usps-processor sends RabbitMQ messages to an "events" topic exchange. These
+messages represent individual scans from the USPS (one scan on one mailing).
+
+The message payloads are EDN-encoded Clojure maps that look like this:
+
+```clojure
+{:scan/facility-city-state {:city "Denver", :state "CO"}
+ :scan/facility-zip "80211"
+ :mailing/mailer-id-9 "123456789"
+ :scan/service "040"
+ :scan/time #inst "2015-02-24T00:00:00.000-00:00"
+ :scan/barcode "000"
+ :scan/operation-code "895"
+ :mailing/serial-number-6 "654321"
+ :mailing/serial-number-9 "789654321"
+ :mailing/mailer-id-6 "123456"}
+```
 
 
 Copyright © 2014 Democracy Works, Inc.
