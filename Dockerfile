@@ -13,6 +13,5 @@ ADD ./ /usps-processor/
 RUN rm /usps-processor/lein_deps
 
 RUN lein test
-RUN lein immutant war
 
 EXPOSE 8080

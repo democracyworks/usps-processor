@@ -1,8 +1,6 @@
 app:
   build: .
   environment:
-    - LEIN_USERNAME
-    - LEIN_PASSWORD
     - USPS_DATOMIC_URI
     - USPS_SQS_QUEUE
     - USPS_SQS_FAIL_QUEUE
@@ -12,7 +10,16 @@ app:
   links:
     - rabbitmq
     - datomic
+    - wildfly
 rabbitmq:
   image: rabbitmq:3.4.3-management
 datomic:
   image: quay.io/democracyworks/datomic-tx:0.9.5130
+wildfly:
+  image: quay.io/democracyworks/wildfly:8.2.0.Final
+  ports:
+    - 9990
+    - 8080
+  environment:
+    ADMIN_USERNAME: admin
+    ADMIN_PASSWORD: admin
