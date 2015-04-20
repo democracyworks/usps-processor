@@ -2,16 +2,12 @@
 
 set -e
 
-if [[ -z $SERVICE ]]; then
-  SERVICE=${PWD##*/}
-fi
-
 if [[ -z $DOCKER_REPO && -n $1 ]]; then
   DOCKER_REPO=$1
 fi
 
 if [[ -z $DOCKER_REPO ]]; then
-  DOCKER_REPO=$(grep 'Environment=DOCKER_REPO=' ${SERVICE}@.service | awk -F\= '{print $3}')
+  DOCKER_REPO=$(grep 'Environment=DOCKER_REPO=' *@.service | awk -F\= '{print $3}')
 fi
 
 if [[ -z $DOCKER_REPO ]]; then
