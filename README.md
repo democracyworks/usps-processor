@@ -3,22 +3,34 @@
 ## Setup
 
 The valid values for `:aws :sqs :region` are the enum values listed in
-the API documentation for [com.amazonaws.regions.Regions](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/regions/Regions.html)
+the API documentation for
+[com.amazonaws.regions.Regions](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/regions/Regions.html)
 
-To initialize and seed the database with a sample scan, run `lein reset-db`.
+To initialize and seed the database with a sample scan, run `lein
+reset-db`.
+
+## Configuration
+
+Configration is performed with Environment Variables. See
+`resources/config.edn` for the exact names.
 
 ## Running it
 
-### In docker
+### With docker-compose
 
-Export your config environment variables:
+Export your build environment variables:
+
+1. Your Datomic Pro download credentials
+    1. `export LEIN_USERNAME=...`
+    1. `export LEIN_PASSWORD=...`
+
+Then run `docker-compose build`.
+
+Export your runtime environment variables:
 
 1. Your AWS access key and secret key
     1. `export AWS_ACCESS_KEY=...`
     1. `export AWS_SECRET_KEY=...`
-1. Your Datomic Pro download credentials
-    1. `export LEIN_USERNAME=...`
-    1. `export LEIN_PASSWORD=...`
 1. USPS_DATOMIC_URI
     1. "datomic:dev://datomic:4334/usps-processor" works well for running under docker-compose
 1. USPS_SQS_REGION
@@ -28,40 +40,32 @@ Export your config environment variables:
 1. USPS_SQS_FAIL_QUEUE
     1. Name of the queue to put failures on
 
-Then run `docker-compose up`.
-This will build the app, download and run dependent containers, and start everything up.
-
-If you change anything in the app, rebuild it with `docker-compose build app` and then re-run
-`docker-compose up`
+Then run `docker-compose up`.  This will build the app, download and
+run dependent containers, and start everything up.
 
 NOTE: The Datomic image referenced in `docker-compose.yml` is a private image for internal use by
 Democracy Works employees. If you want to use this you'll either need your own Datomic Pro license
 or switch to Datomic Free.
 
-### Standalone
+### Running in CoreOS
 
-To run the Importer:
+The `script/build` and `script/deploy` scripts are designed to automate building and deploying to CoreOS.
 
-```sh
-lein run -m usps-processor.importer
-```
+1. Run `script/build`.
+1. Note the resulting image name and push it if needed.
+1. Set your FLEETCTL_TUNNEL env var to a node of the CoreOS cluster
+   you want to deploy to.
+1. Configure the following in Consul
+   1. /aws/credentials/access-key
+   2. /aws/credentials/secret-key
+   3. /usps-processor/sqs/region
+   4. /usps-processor/sqs/queue
+   5. /usps-processor/sqs/fail-queue
+   6. /usps-processor/datomic/uri
+1. Make sure RabbitMQ and Datomic are running on CoreOS (with
+   `fleetctl list-units`).
+1. Run `script/deploy image/name`.
 
-To run the API:
-
-```sh
-lein run -m usps-processor.api
-```
-
-### Immutant
-
-> Immutant is currently disabled pending an upgrade to Immutant 2.
-
-To run both in Immutant:
-
-```sh
-lein immutant deploy
-lein immutant run
-```
 
 ## Updating resources/zipcode-city-state.edn
 

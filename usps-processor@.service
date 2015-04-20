@@ -14,12 +14,13 @@ TimeoutStartSec=10min
 TimeoutStopSec=10min
 
 Environment=DOCKER_REPO=quay.io/democracyworks/usps-processor
-Environment=VERSION=buildkite-coreos-fd55ab2
+Environment=VERSION=latest
 Environment=CONTAINER=usps-processor
 Environment=HOME=/root
 
 ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
 ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
+ExecStartPre=-sleep 2
 ExecStartPre=/usr/bin/curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/buildkite/dockercfg?raw -o /root/.dockercfg
 ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
 

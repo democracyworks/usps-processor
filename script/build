@@ -2,6 +2,11 @@
 
 set -e
 
+if [[ -n $DATOMIC_USERNAME && -n $DATOMIC_PASSWORD ]]; then
+  cat profiles.clj.sample | perl -pe 's/USERNAME/$ENV{"DATOMIC_USERNAME"}/' | \
+    perl -pe 's/PASSWORD/$ENV{"DATOMIC_PASSWORD"}/' > profiles.clj
+fi
+
 if [[ -z $DOCKER_REPO && -n $1 ]]; then
   DOCKER_REPO=$1
 fi
@@ -30,17 +35,8 @@ fi
 
 IMAGE_TAG=${BRANCH}-$(git rev-parse --short ${COMMIT})
 
-if [[ -z $LEIN_DEPS_SCRIPT_URL ]]; then
-  echo "Please set LEIN_DEPS_SCRIPT_URL."
-  exit 1
-else
-  echo "curl -s ${LEIN_DEPS_SCRIPT_URL} | bash" > lein_deps
-fi
-
 echo "Building ${DOCKER_REPO}:${IMAGE_TAG}"
 docker build -t $DOCKER_REPO:$IMAGE_TAG .
-
-rm lein_deps
 
 if [[ $CI = "true" && $BUILDKITE_PULL_REQUEST = "false" ]]; then
   echo '--- pushing docker image to registry'

@@ -1,17 +1,18 @@
-FROM quay.io/democracyworks/didor
+FROM quay.io/democracyworks/didor:latest
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
-ADD project.clj /usps-processor/
+RUN mkdir -p /usps-processor
 WORKDIR /usps-processor
 
-ADD lein_deps /usps-processor/
+COPY profiles.clj /usps-processor/
+COPY project.clj /usps-processor/
 
-RUN bash /usps-processor/lein_deps
+RUN lein deps
 
-ADD ./ /usps-processor/
-
-RUN rm /usps-processor/lein_deps
+COPY . /usps-processor
 
 RUN lein test
+
+RUN lein immutant war --name usps-processor --destination target
 
 EXPOSE 8080
