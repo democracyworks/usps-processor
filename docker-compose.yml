@@ -12,9 +12,9 @@ app:
     - datomic
     - wildfly
 rabbitmq:
-  image: rabbitmq:3.4.3-management
+  image: rabbitmq:3.5.0-management
 datomic:
-  image: quay.io/democracyworks/datomic-tx:0.9.5130
+  image: quay.io/democracyworks/datomic-tx:0.9.5153
 wildfly:
   image: quay.io/democracyworks/wildfly:8.2.0.Final
   ports:
