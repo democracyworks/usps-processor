@@ -56,8 +56,8 @@ The `script/build` and `script/deploy` scripts are designed to automate building
 1. Set your FLEETCTL_TUNNEL env var to a node of the CoreOS cluster
    you want to deploy to.
 1. Configure the following in Consul
-   1. /aws/credentials/access-key
-   2. /aws/credentials/secret-key
+   1. /usps-processor/aws/credentials/access-key
+   2. /usps-processor/aws/credentials/secret-key
    3. /usps-processor/sqs/region
    4. /usps-processor/sqs/queue
    5. /usps-processor/sqs/fail-queue

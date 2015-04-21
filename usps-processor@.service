@@ -27,8 +27,8 @@ ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
 ExecStart=/usr/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
    --link wildfly:wildfly \
    --link rabbitmq:rabbitmq \
-   --env AWS_ACCESS_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/aws/credentials/access-key?raw) \
-   --env AWS_SECRET_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/aws/credentials/secret-key?raw) \
+   --env AWS_ACCESS_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/access-key?raw) \
+   --env AWS_SECRET_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/secret-key?raw) \
    --env USPS_SQS_REGION=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/region?raw) \
    --env USPS_SQS_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/queue?raw) \
    --env USPS_SQS_FAIL_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/fail-queue?raw) \
