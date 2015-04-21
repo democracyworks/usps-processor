@@ -18,11 +18,11 @@ Configration is performed with Environment Variables. See
 
 ### With docker-compose
 
-Export your build environment variables:
+Set up the Datomic credentials:
 
-1. Your Datomic Pro download credentials
-    1. `export LEIN_USERNAME=...`
-    1. `export LEIN_PASSWORD=...`
+1. Copy `profiles.clj.sample` to `profiles.clj`
+2. Edit in your datomic username and password.
+3. Save it.
 
 Then run `docker-compose build`.
 
