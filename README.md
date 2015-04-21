@@ -62,8 +62,8 @@ The `script/build` and `script/deploy` scripts are designed to automate building
    4. /usps-processor/sqs/queue
    5. /usps-processor/sqs/fail-queue
    6. /usps-processor/datomic/uri
-1. Make sure RabbitMQ and Datomic are running on CoreOS (with
-   `fleetctl list-units`).
+1. Make sure RabbitMQ is running on CoreOS (with `fleetctl
+   list-units`).
 1. Run `script/deploy image/name`.
 
 
