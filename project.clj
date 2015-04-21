@@ -7,7 +7,7 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-simple "1.7.12"]
                  [turbovote.resource-config "0.1.4"]
-                 [turbovote.datomic-toolbox "0.2.5-SNAPSHOT" :exclusions [com.datomic/datomic-pro]]
+                 [democracyworks/datomic-toolbox "1.0.0" :exclusions [com.datomic/datomic-pro]]
                  [com.datomic/datomic-pro "0.9.5130" :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.10"]
                  [clj-time "0.9.0"]

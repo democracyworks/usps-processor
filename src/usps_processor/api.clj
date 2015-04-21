@@ -1,7 +1,7 @@
 (ns usps-processor.api
   (:require [usps-processor.mailing :as mailing]
             [usps-processor.zip-lookup :refer [zipcode->city-state]]
-            [turbovote.datomic-toolbox :as d]
+            [datomic-toolbox :as d]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
             [immutant.web :refer [run]]

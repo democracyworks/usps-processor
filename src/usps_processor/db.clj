@@ -1,5 +1,5 @@
 (ns usps-processor.db
-  (:require [turbovote.datomic-toolbox :as d]
+  (:require [datomic-toolbox :as d]
             [datomic.api :as db]))
 
 (defn scan->mailing-constraints [scan-data]
