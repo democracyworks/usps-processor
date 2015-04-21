@@ -2,7 +2,7 @@
   (:require [usps-processor.queue :refer :all]
             [clojure.test :refer :all]
             [langohr.basic :as lb]
-            [turbovote.datomic-toolbox :as datomic-tb]
+            [datomic-toolbox :as datomic-tb]
             [datomic.api :as datomic]
             [usps-processor.db :as db]
             [turbovote.resource-config :refer [config]]

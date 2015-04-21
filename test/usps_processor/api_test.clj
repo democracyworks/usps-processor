@@ -1,7 +1,7 @@
 (ns usps-processor.api-test
   (:require [clojure.test :refer :all]
             [usps-processor.api :refer :all]
-            [turbovote.datomic-toolbox :as d]
+            [datomic-toolbox :as d]
             [datomic.api :as db]
             [turbovote.resource-config :refer [config]]))
 
