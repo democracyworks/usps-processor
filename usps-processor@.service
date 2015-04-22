@@ -7,6 +7,8 @@ After=consul@%i.service
 Wants=consul@%i.service
 After=wildfly@%i.service
 Requires=wildfly@%i.service
+After=rabbitmq@%i.service
+Requires=rabbitmq@%i.service
 
 [Service]
 EnvironmentFile=/etc/environment
