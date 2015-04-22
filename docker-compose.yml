@@ -6,7 +6,6 @@ app:
     USPS_SQS_REGION:
     AWS_ACCESS_KEY:
     AWS_SECRET_KEY:
-    USPS_API_PORT:
     USPS_DATOMIC_URI: datomic:dev://datomic:4334/usps-processor
   links:
     - wildfly
