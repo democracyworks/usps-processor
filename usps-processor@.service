@@ -1,0 +1,42 @@
+[Unit]
+Description=USPS Processor
+
+After=docker.service
+Requires=docker.service
+After=consul@%i.service
+Wants=consul@%i.service
+After=wildfly@%i.service
+Requires=wildfly@%i.service
+After=rabbitmq@%i.service
+Requires=rabbitmq@%i.service
+
+[Service]
+EnvironmentFile=/etc/environment
+TimeoutStartSec=10min
+TimeoutStopSec=10min
+
+Environment=DOCKER_REPO=quay.io/democracyworks/usps-processor
+Environment=VERSION=latest
+Environment=CONTAINER=usps-processor
+Environment=HOME=/root
+
+ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
+ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
+ExecStartPre=/bin/bash -c 'sleep 2 && curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/buildkite/dockercfg?raw -o /root/.dockercfg'
+ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
+
+ExecStart=/usr/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
+   --link wildfly:wildfly \
+   --link rabbitmq:rabbitmq \
+   --env AWS_ACCESS_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/access-key?raw) \
+   --env AWS_SECRET_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/secret-key?raw) \
+   --env USPS_SQS_REGION=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/region?raw) \
+   --env USPS_SQS_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/queue?raw) \
+   --env USPS_SQS_FAIL_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/fail-queue?raw) \
+   --env USPS_DATOMIC_URI=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/datomic/uri?raw) \
+   ${DOCKER_REPO}:${VERSION}'
+
+ExecStop=/usr/bin/docker stop ${CONTAINER}
+
+[X-Fleet]
+MachineOf=wildfly@%i.service

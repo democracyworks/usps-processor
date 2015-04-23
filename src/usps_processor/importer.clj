@@ -6,7 +6,7 @@
             [democracyworks.squishy :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
-            [turbovote.datomic-toolbox :as d]
+            [datomic-toolbox :as d]
             [datomic.api :as datomic]
             [riemann.client :as riemann]
             [clojure.edn :as edn])

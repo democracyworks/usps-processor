@@ -1,5 +1,5 @@
 {:datomic-repo {:repositories
                 {"my.datomic.com" {:url "https://my.datomic.com/repo"
-                                   :username "*** YOUR my.datomic.com USERNAME ***"
-                                   :password "*** YOUR my.datomic.com/repo PASSWORD ***"}}}
+                                   :username "USERNAME"
+                                   :password "PASSWORD"}}}
  :dev [:datomic-repo]}

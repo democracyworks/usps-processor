@@ -1,18 +1,27 @@
 app:
   build: .
   environment:
-    - LEIN_USERNAME
-    - LEIN_PASSWORD
-    - USPS_DATOMIC_URI
-    - USPS_SQS_QUEUE
-    - USPS_SQS_FAIL_QUEUE
-    - USPS_SQS_REGION
-    - AWS_ACCESS_KEY
-    - AWS_SECRET_KEY
+    USPS_SQS_QUEUE:
+    USPS_SQS_FAIL_QUEUE:
+    USPS_SQS_REGION:
+    AWS_ACCESS_KEY:
+    AWS_SECRET_KEY:
+    USPS_DATOMIC_URI: datomic:dev://datomic:4334/usps-processor
   links:
+    - wildfly
     - rabbitmq
-    - datomic
 rabbitmq:
   image: rabbitmq:3.5.0-management
 datomic:
   image: quay.io/democracyworks/datomic-tx:0.9.5153
+wildfly:
+  image: quay.io/democracyworks/wildfly:8.2.0.Final
+  links:
+    - rabbitmq
+    - datomic
+  ports:
+    - 9990
+    - 8080
+  environment:
+    ADMIN_USERNAME: admin
+    ADMIN_PASSWORD: admin
