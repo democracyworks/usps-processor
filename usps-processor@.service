@@ -33,7 +33,7 @@ ExecStart=/usr/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
    --env USPS_SQS_REGION=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/region?raw) \
    --env USPS_SQS_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/queue?raw) \
    --env USPS_SQS_FAIL_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/fail-queue?raw) \
-   --env USPS_DATOMIC_URI=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/datomic/uri?raw) \
+   --env USPS_DATOMIC_URI=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/datomic/uri-root?raw)/usps-processor \
    ${DOCKER_REPO}:${VERSION}'
 
 ExecStop=/usr/bin/docker stop ${CONTAINER}
