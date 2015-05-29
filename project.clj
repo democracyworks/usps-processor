@@ -15,8 +15,6 @@
                  [org.clojure/data.csv "0.1.2"]
                  [turbovote.imbarcode "0.1.5"
                   :exclusions [org.clojure/clojure]]
-                 [compojure "1.3.3"]
-                 [ring/ring-core "1.3.2"]
                  [javax.servlet/servlet-api "2.5"]
                  [org.immutant/web "2.0.0"]
                  [riemann-clojure-client "0.3.2"]
@@ -26,13 +24,11 @@
                    :source-paths ["dev-src"]}
              :test {:resource-paths ["test-resources"]
                     :main usps-processor.core-test}
-             :uberjar {:aot [usps-processor.importer
-                             usps-processor.api]}
+             :uberjar {:aot [usps-processor.importer]}
              :production {:resource-paths ["env-configs/usps-processor/production/resources"]}}
   :uberjar-name "usps-processor.jar"
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env
                                    :password :env}}
   :main usps-processor.core
-  :aliases {"reset-db" ["run" "-m" "dev.db"]}
-  :ring {:handler usps-processor.api/app})
+  :aliases {"reset-db" ["run" "-m" "dev.db"]})

@@ -6,5 +6,4 @@
  :datomic {:uri #resource-config/env "USPS_DATOMIC_URI"
            :partition :usps-processor}
  :rabbit-mq {:connection {:host #resource-config/env "RABBITMQ_PORT_5672_TCP_ADDR"
-                          :port #resource-config/edn #resource-config/env "RABBITMQ_PORT_5672_TCP_PORT"}}
- :api {:port #resource-config/env "USPS_API_PORT"}}
+                          :port #resource-config/edn #resource-config/env "RABBITMQ_PORT_5672_TCP_PORT"}}}
