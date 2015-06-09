@@ -6,9 +6,9 @@
             [langohr.consumers :as lc]
             [langohr.basic     :as lb]
             [turbovote.resource-config :refer [config]]
-            [usps-processor.api :refer [render-scan]]
             [clojure.tools.logging :refer [info]]
-            [usps-processor.mailing :as mailing]))
+            [usps-processor.mailing :as mailing]
+            [usps-processor.scan :as scan]))
 
 (def channel (atom nil))
 
@@ -25,7 +25,7 @@
 (defn publish-scan
   [scan]
   (let [mailing (mailing/scan->mailing scan)
-        rendered-scan (render-scan scan)
+        rendered-scan (scan/render-scan scan)
         rendered-mailing (mailing/render mailing)
         event (merge rendered-scan rendered-mailing)
         edn (pr-str event)]
