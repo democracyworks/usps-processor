@@ -94,5 +94,19 @@ The message payloads are EDN-encoded Clojure maps that look like this:
  :mailing/mailer-id-6 "123456"}
 ```
 
+## Usage
 
-Copyright © 2014 Democracy Works, Inc.
+To kick off processing a scan file, upload it to an S3 bucket that the AWS credentials you're using have read access to. Then send a message on the `USPS_SQS_QUEUE` that looks like this:
+
+```clojure
+{:filename "your-scan-file.txt" :bucket "s3-bucket"}
+```
+
+Check the logs for messages like "Processing s3-bucket / your-scan-file.txt" and
+then later "Processed ... scans from s3-bucket / your-scan-file.txt".
+
+Watch the `USPS_SQS_FAIL_QUEUE` for failure messages.
+
+## Copyright
+
+Copyright © 2014-2015 Democracy Works, Inc.
