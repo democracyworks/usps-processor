@@ -1,12 +1,12 @@
 (ns usps-processor.mailing
-  (:require [datomic-toolbox :as d]
-            [datomic.api :as db]))
+  (:require [datomic-toolbox.core :as dt]
+            [datomic.api :as d]))
 
 (defn scan->mailing [scan]
   (->> scan
        :scan/mailing
        :db/id
-       (db/entity (d/db))))
+       (d/entity (dt/db))))
 
 (defn render [mailing]
   (-> mailing

@@ -3,14 +3,16 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-simple "1.7.12"]
                  [turbovote.resource-config "0.1.4"]
-                 [democracyworks/datomic-toolbox "1.0.0" :exclusions [com.datomic/datomic-pro]]
-                 [com.datomic/datomic-pro "0.9.5130" :exclusions [org.slf4j/slf4j-nop]]
+                 [democracyworks/datomic-toolbox "2.0.1"
+                  :exclusions [com.datomic/datomic-pro]]
+                 [com.datomic/datomic-pro "0.9.5327"
+                  :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.10"]
-                 [clj-time "0.9.0"]
+                 [clj-time "0.11.0"]
                  [democracyworks.squishy "1.0.0"]
                  [org.clojure/data.csv "0.1.2"]
                  [turbovote.imbarcode "0.1.5"

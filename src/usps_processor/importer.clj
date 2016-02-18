@@ -6,18 +6,18 @@
             [democracyworks.squishy :as sqs]
             [clojure.tools.logging :refer [info]]
             [turbovote.resource-config :refer [config]]
-            [datomic-toolbox :as d]
+            [datomic-toolbox.core :as dt]
             [datomic.api :as datomic]
             [riemann.client :as riemann]
             [clojure.edn :as edn])
   (:gen-class))
 
 (def riemann-client
-  (memoize (fn [] (riemann/udp-client :host (config :riemann :host)
-                                      :port (config :riemann :port)))))
+  (memoize (fn [] (riemann/udp-client :host (config [:riemann :host])
+                                      :port (config [:riemann :port])))))
 
 (defn send-event [metric description]
-  (when (config :riemann :host)
+  (when (config [:riemann :host])
     (riemann/send-event (riemann-client)
                         {:service "usps-processor scans" :metric metric
                          :tags ["usps-processor"]
@@ -36,7 +36,7 @@
 
 (defn -main [& args]
   (info "Starting up...")
-  (d/initialize)
+  (dt/initialize (config [:datomic]))
   (queue/initialize)
   (let [messages-future (sqs/consume-messages (sqs/client) process-file)]
     (info "Started")

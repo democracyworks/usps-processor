@@ -17,7 +17,7 @@
 
 (defn initialize
   []
-  (let [conn (rmq/connect (config :rabbit-mq :connection))
+  (let [conn (rmq/connect (config [:rabbit-mq :connection]))
         ch   (lch/open conn)]
     (reset! channel ch)
     (le/declare ch events-exchange "topic" {:durable true :auto-delete false})))

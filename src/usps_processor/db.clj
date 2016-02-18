@@ -1,6 +1,8 @@
 (ns usps-processor.db
-  (:require [datomic-toolbox :as d]
-            [datomic.api :as db]))
+  (:require [datomic-toolbox.core :as dt]
+            [datomic-toolbox.transaction :as dtx]
+            [datomic-toolbox.query :as dtq]
+            [datomic.api :as d]))
 
 (defn scan->mailing-constraints [scan-data]
   {:mailing/serial-number-6
@@ -18,7 +20,7 @@
 
 (defn scan-data->scan-tx-data
   [scan-data mailing-id]
-  [{:db/id (d/tempid)
+  [{:db/id (dt/tempid)
     :scan/mailing mailing-id
     :scan/facility-zip (:facility-zip scan-data)
     :scan/operation-code (:operation-code scan-data)
@@ -35,7 +37,7 @@
 
 (defn scan-data->mailing-tx-data
   [scan-data]
-  (let [mailing-tx-map {:db/id (d/tempid)
+  (let [mailing-tx-map {:db/id (dt/tempid)
                         :mailing/serial-number-6
                         (get-in scan-data [:imb-data :9-digit-mailer :serial-number])
 
@@ -50,22 +52,22 @@
 
                         :mailing/customer-number
                         (get-in scan-data [:imb-data :customer-number])}]
-    [(d/dissoc-optional-nil-values mailing-tx-map optional-mailing-keys)]))
+    [(dtx/dissoc-optional-nil-values mailing-tx-map optional-mailing-keys)]))
 
 (defn store-scan
   [scan-data]
   (let [existing-mailing-id (->> scan-data
                                  scan->mailing-constraints
-                                 (d/match-entities (d/db))
+                                 (dtq/match-entities (dt/db))
                                  first
                                  :db/id)
         mailing-tx-data (if existing-mailing-id [] (scan-data->mailing-tx-data scan-data))
         mailing-id (or existing-mailing-id (some :db/id mailing-tx-data))
         scan-tx-data (scan-data->scan-tx-data scan-data mailing-id)
         scan-id (some :db/id scan-tx-data)
-        tx @(d/transact (concat mailing-tx-data scan-tx-data))]
-    (db/entity (:db-after tx)
-               (db/resolve-tempid (:db-after tx) (:tempids tx) scan-id))))
+        tx @(dt/transact (concat mailing-tx-data scan-tx-data))]
+    (d/entity (:db-after tx)
+              (d/resolve-tempid (:db-after tx) (:tempids tx) scan-id))))
 
 (defn store-scans [scans]
   (doall (map store-scan scans)))

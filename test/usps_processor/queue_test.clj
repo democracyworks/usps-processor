@@ -2,16 +2,17 @@
   (:require [usps-processor.queue :refer :all]
             [clojure.test :refer :all]
             [langohr.basic :as lb]
-            [datomic-toolbox :as datomic-tb]
-            [datomic.api :as datomic]
+            [datomic-toolbox.core :as dt]
+            [datomic.api :as d]
             [usps-processor.db :as db]
-            [turbovote.resource-config :refer [config]]
             [clojure.edn :as edn]))
 
 (defn with-fresh-db [f]
-  (datomic/delete-database (config :datomic :uri))
-  (datomic-tb/initialize)
-  (f))
+  (let [uri (str "datomic:mem://usps-processor-" (java.util.UUID/randomUUID))]
+    (try
+      (dt/initialize {:uri uri, :partition :usps-processor})
+      (f)
+      (finally (d/delete-database uri)))))
 
 (def test-queue (atom []))
 

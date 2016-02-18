@@ -1,6 +1,6 @@
 (ns dev.db
-  (:require [turbovote.datomic-toolbox :as db]
-            democracyworks.squishy.data-readers
+  (:require [datomic-toolbox.core :as db]
+            [democracyworks.squishy.data-readers]
             [clojure.edn :as edn]
             [datomic.api :as d]
             [turbovote.resource-config :refer [config]]))
@@ -18,8 +18,11 @@
   (db/transact seed-tx-data))
 
 (defn reset-db! []
-  (d/delete-database (config :datomic :uri))
-  (db/initialize)
+  ;; TODO: This isn't really correct. In Datomic you shouldn't delete and
+  ;; re-create the same database. It's against the grain of Datomic's immutable
+  ;; nature. And it does actually cause unpredictable behavior.
+  (d/delete-database (config [:datomic :uri]))
+  (db/initialize (config [:datomic]))
   (seed-db))
 
 (defn -main []
