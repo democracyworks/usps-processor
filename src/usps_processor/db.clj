@@ -25,6 +25,7 @@
     :scan/facility-zip (:facility-zip scan-data)
     :scan/operation-code (:operation-code scan-data)
     :scan/time (:scan-time scan-data)
+    :scan/timezone-id (:timezone-id scan-data)
     :scan/barcode (get-in scan-data [:imb-data :barcode])
     :scan/service (get-in scan-data [:imb-data :service])}])
 
