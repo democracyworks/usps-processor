@@ -1,0 +1,8 @@
+[
+ {:db/id #db/id[:db.part/db]
+  :db/ident :scan/timezone-id
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "Timezone of scan"
+  :db.install/_attribute :db.part/db}
+ ]
