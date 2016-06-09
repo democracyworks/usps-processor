@@ -9,8 +9,8 @@
 (defn start-importer []
   (swap! messages-future (fn [mf]
                            (when mf (future-cancel mf))
-                           (importer/-main) ;; returns a new future
-                           )))
+                           (importer/-main)))) ;; returns a new future
+
 
 (defn stop-importer []
   (swap! messages-future (fn [mf]
