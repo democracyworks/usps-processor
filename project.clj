@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-simple "1.7.12"]
-                 [turbovote.resource-config "0.1.4"]
+                 [turbovote.resource-config "0.2.0"]
                  [democracyworks/datomic-toolbox "2.0.1"
                   :exclusions [com.datomic/datomic-pro]]
                  [com.datomic/datomic-pro "0.9.5327"
