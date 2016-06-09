@@ -1,6 +1,6 @@
 (ns dev.db
   (:require [datomic-toolbox.core :as db]
-            [democracyworks.squishy.data-readers]
+            [squishy.data-readers]
             [clojure.edn :as edn]
             [datomic.api :as d]
             [turbovote.resource-config :refer [config]]))

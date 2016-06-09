@@ -3,7 +3,7 @@
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
             [usps-processor.queue :as queue]
-            [democracyworks.squishy :as sqs]
+            [squishy.core :as sqs]
             [clojure.tools.logging :as log]
             [turbovote.resource-config :refer [config]]
             [datomic-toolbox.core :as dt]
@@ -25,6 +25,13 @@
   (log/info "Datomic initialized")
   (queue/initialize)
   (log/info "RabbitMQ initialized")
-  (let [messages-future (sqs/consume-messages (sqs/client) process-file)]
-    (log/info "Started")
-    messages-future))
+  (let [sqs-creds {:access-key (config [:aws :creds :access-key])
+                   :secret-key (config [:aws :creds :secret-key])
+                   :region     (config [:aws :sqs :region])}
+        messages-future (sqs/consume-messages
+                         sqs-creds
+                         (config [:aws :sqs :queue])
+                         (config [:aws :sqs :fail-queue])
+                         process-file)]
+      (log/info "Started")
+      messages-future))

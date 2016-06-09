@@ -13,7 +13,7 @@
                   :exclusions [org.slf4j/slf4j-nop]]
                  [clj-aws-s3 "0.3.10"]
                  [clj-time "0.11.0"]
-                 [democracyworks.squishy "1.0.0"]
+                 [democracyworks/squishy "2.0.0"]
                  [org.clojure/data.csv "0.1.2"]
                  [turbovote.imbarcode "0.1.5"
                   :exclusions [org.clojure/clojure]]
