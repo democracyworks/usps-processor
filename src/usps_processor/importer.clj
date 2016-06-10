@@ -25,9 +25,9 @@
   (log/info "Datomic initialized")
   (queue/initialize)
   (log/info "RabbitMQ initialized")
-  (let [sqs-creds {:access-key (config [:aws :creds :access-key])
-                   :secret-key (config [:aws :creds :secret-key])
-                   :region     (config [:aws :sqs :region])}
+  (let [sqs-creds {:access-key    (config [:aws :creds :access-key])
+                   :access-secret (config [:aws :creds :secret-key])
+                   :region        (config [:aws :sqs :region])}
         messages-future (sqs/consume-messages
                          sqs-creds
                          (config [:aws :sqs :queue])
