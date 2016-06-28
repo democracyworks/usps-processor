@@ -6,7 +6,6 @@
     :scan/facility-city-state
     (some-> scan
             :scan/facility-zip
-            (Integer/parseInt)
             zip/zipcode->city-state-timezone
             (select-keys [:city :state]))))
 

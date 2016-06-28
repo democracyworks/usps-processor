@@ -15,7 +15,6 @@
   "Looks up the id of the timezone for the provided zip."
   [zip]
   (or (some-> zip
-              (Integer/parseInt)
               zip/zipcode->city-state-timezone
               :timezone-id)
       default-timezone-id))
