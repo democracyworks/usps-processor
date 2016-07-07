@@ -13,11 +13,12 @@
               (map (partial apply str)
                    (partition-by #{\space \-} s)))))
 
-(def zipcode->city-state
-  (let [data (-> "zipcode-city-state.edn"
+(def zipcode->city-state-timezone
+  (let [data (-> "zip_city_state_timezone.edn"
                  clojure.java.io/resource
                  slurp
                  edn/read-string)]
     (into {}
-          (for [[zip {:keys [city state]}] data]
-            [zip {:city (proper-case city) :state state}]))))
+          (for [[zip {:keys [city state timezone-id]}] data]
+            [zip {:city (proper-case city) :state state
+                  :timezone-id timezone-id}]))))
