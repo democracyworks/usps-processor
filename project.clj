@@ -5,24 +5,36 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [org.slf4j/slf4j-simple "1.7.12"]
+                 [org.slf4j/slf4j-simple "1.7.21"]
                  [turbovote.resource-config "0.2.0"]
                  [democracyworks/datomic-toolbox "2.0.1"
                   :exclusions [com.datomic/datomic-pro]]
-                 [com.datomic/datomic-pro "0.9.5327"
-                  :exclusions [org.slf4j/slf4j-nop]]
-                 [clj-aws-s3 "0.3.10"]
-                 [clj-time "0.11.0"]
-                 [democracyworks/squishy "2.0.0"]
-                 [org.clojure/data.csv "0.1.2"]
+                 [com.datomic/datomic-pro "0.9.5385"
+                  :exclusions [org.slf4j/slf4j-nop commons-codec
+                               org.jboss.logging/jboss-logging]]
+                 [com.amazonaws/aws-java-sdk "1.11.6"
+                  :exclusions [commons-codec commons-logging
+                               com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
+                               com.fasterxml.jackson.core/jackson-core]]
+                 [clj-aws-s3 "0.3.10"
+                  :exclusions [commons-codec commons-logging
+                               com.fasterxml.jackson.core/jackson-core
+                               com.fasterxml.jackson.core/jackson-annotations
+                               com.amazonaws/aws-java-sdk]]
+                 [clj-time "0.12.0"]
+                 [democracyworks/squishy "2.0.0"
+                  :exclusions [commons-codec]]
+                 [org.clojure/data.csv "0.1.3"]
                  [turbovote.imbarcode "0.1.5"
-                  :exclusions [org.clojure/clojure]]
+                  :exclusions [org.clojure/clojure
+                               org.clojure/tools.reader]]
                  [javax.servlet/servlet-api "2.5"]
-                 [org.immutant/web "2.0.0"]
-                 [riemann-clojure-client "0.3.2"]
-                 [com.novemberain/langohr "3.1.0"]
+                 [org.immutant/web "2.1.5"
+                  :exclusions [commons-codec]]
+                 [riemann-clojure-client "0.4.2"]
+                 [com.novemberain/langohr "3.6.1"]
                  [prismatic/schema "1.1.2"]]
-  :plugins [[lein-immutant "2.0.0"]]
+  :plugins [[lein-immutant "2.1.0"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
              :test {:resource-paths ["test-resources"]
