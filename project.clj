@@ -20,7 +20,8 @@
                  [javax.servlet/servlet-api "2.5"]
                  [org.immutant/web "2.0.0"]
                  [riemann-clojure-client "0.3.2"]
-                 [com.novemberain/langohr "3.1.0"]]
+                 [com.novemberain/langohr "3.1.0"]
+                 [prismatic/schema "1.1.2"]]
   :plugins [[lein-immutant "2.0.0"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}
