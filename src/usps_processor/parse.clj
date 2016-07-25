@@ -32,7 +32,7 @@
 
 (defn ->time-utc
   "Takes the time in the USPS string format, and a timezone id like
-   'America/New_York', and returns a DateTime in UTC for that time."
+   'America/New_York', and returns a joda DateTime in UTC for that time."
   [time-string timezone-id]
   (try
     (let [timezone (timezone-id->timezone timezone-id)
@@ -43,7 +43,7 @@
       (log/warn "Exception parsing scan time" ex))))
 
 (defn datetime->date
-  "Converts a datetime to date, or returns nil if datetime is nil"
+  "Converts a joda Datetime to java Date, or returns nil if Datetime is nil"
   [datetime]
   (when datetime
     (coerce/to-date datetime)))
@@ -73,6 +73,7 @@
   (valid-number? 5 zip))
 
 (defn valid-scan-time?
+  "Checks that scan time is a java.util.Date"
   [scan-time]
   (isa? (class scan-time) java.util.Date))
 
