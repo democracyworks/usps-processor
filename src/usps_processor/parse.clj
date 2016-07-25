@@ -81,18 +81,6 @@
   [customer-number]
   (valid-number? 15 customer-number))
 
-(defn valid-number-3?
-  [number]
-  (valid-number? 3 number))
-
-(defn valid-number-6?
-  [number]
-  (valid-number? 6 number))
-
-(defn valid-number-9?
-  [number]
-  (valid-number? 9 number))
-
 (defn valid-routing-number?
   [number]
   (and (not (nil? number))
@@ -100,25 +88,25 @@
        (#{0 5 9 11} (count number))))
 
 (def inbound-schema
-  {:barcode (s/pred valid-barcode?)
-   :service (s/pred valid-number-3?)
-   :routing s/Str
-   :customer-number (s/pred valid-customer-number?)})
+  {:barcode (s/pred valid-barcode? "2 digit number")
+   :service (s/pred (partial valid-number? 3) "3 digit number")
+   :routing (s/pred valid-routing-number? "0,5,9, or 11 digit number")
+   :customer-number (s/pred valid-customer-number? "15 digit number")})
 
 (def outbound-schema
-  {:barcode (s/pred valid-barcode?)
-   :service (s/pred valid-number-3?)
-   :routing s/Str
+  {:barcode (s/pred valid-barcode? "2 digit number")
+   :service (s/pred (partial valid-number? 3) "3 digit number")
+   :routing (s/pred valid-routing-number? "0,5,9, or 11 digit number")
    :9-digit-mailer
-   {:mailer-id (s/pred valid-number-9?)
-    :serial-number (s/pred valid-number-6?)}
+   {:mailer-id (s/pred (partial valid-number? 9) "9 digit number")
+    :serial-number (s/pred (partial valid-number? 6) "6 digit number")}
    :6-digit-mailer
-   {:mailer-id (s/pred valid-number-6?)
-    :serial-number (s/pred valid-number-9?)}})
+   {:mailer-id (s/pred (partial valid-number? 6) "6 digit number")
+    :serial-number (s/pred (partial valid-number? 9) "9 digit number")}})
 
 (def scan-schema
-  {:facility-zip (s/pred valid-facility-zip?)
-   :operation-code (s/pred valid-number-3?)
+  {:facility-zip (s/pred valid-facility-zip? "5 digit number")
+   :operation-code (s/pred (partial valid-number? 3) "3 digit number")
    :scan-time (s/pred valid-scan-time?)
    :timezone-id s/Str
    :imb-data (s/conditional :customer-number
