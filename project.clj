@@ -32,7 +32,8 @@
                  [org.immutant/web "2.1.5"
                   :exclusions [commons-codec]]
                  [riemann-clojure-client "0.4.2"]
-                 [com.novemberain/langohr "3.6.1"]]
+                 [com.novemberain/langohr "3.6.1"]
+                 [prismatic/schema "1.1.3"]]
   :plugins [[lein-immutant "2.1.0"]]
   :profiles {:dev {:resource-paths ["dev-resources"]
                    :source-paths ["dev-src"]}

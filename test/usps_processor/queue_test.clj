@@ -5,14 +5,8 @@
             [datomic-toolbox.core :as dt]
             [datomic.api :as d]
             [usps-processor.db :as db]
-            [clojure.edn :as edn]))
-
-(defn with-fresh-db [f]
-  (let [uri (str "datomic:mem://usps-processor-" (java.util.UUID/randomUUID))]
-    (try
-      (dt/initialize {:uri uri, :partition :usps-processor})
-      (f)
-      (finally (d/delete-database uri)))))
+            [clojure.edn :as edn]
+            [usps-processor.test-util :refer [with-fresh-db]]))
 
 (def test-queue (atom []))
 
