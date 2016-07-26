@@ -129,7 +129,8 @@
     (try
       (s/validate scan-schema row-data)
       (catch Exception ex
-        (log/error "Scan line didn't process: " row)
+        (log/error "Scan line didn't process: "
+                   (str/join "," row))
         (log/error "  Reason: " ex)))))
 
 (defn parse [input]
