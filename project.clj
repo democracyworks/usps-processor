@@ -23,7 +23,7 @@
                                com.fasterxml.jackson.core/jackson-annotations
                                com.amazonaws/aws-java-sdk]]
                  [clj-time "0.12.0"]
-                 [democracyworks/squishy "2.0.0"
+                 [democracyworks/squishy "3.0.0"
                   :exclusions [commons-codec]]
                  [org.clojure/data.csv "0.1.3"]
                  [turbovote.imbarcode "0.1.5"

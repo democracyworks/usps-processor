@@ -41,10 +41,10 @@
   (let [sqs-creds {:access-key    (config [:aws :creds :access-key])
                    :access-secret (config [:aws :creds :secret-key])
                    :region        (config [:aws :sqs :region])}
-        message-future (sqs/consume-messages
+        cid (sqs/consume-messages
                          sqs-creds
                          (config [:aws :sqs :queue])
                          (config [:aws :sqs :fail-queue])
                          process-file)]
     (log/info "Consuming SQS messages")
-    message-future))
+    cid))

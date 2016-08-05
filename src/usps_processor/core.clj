@@ -3,24 +3,24 @@
             [usps-processor.queue :as queue]
             [usps-processor.channels :as channels]
             [datomic-toolbox.core :as dtc]
+            [squishy.core :as sqs]
             [immutant.util :as immutant]
             [turbovote.resource-config :refer [config]]
             [clojure.tools.logging :as log])
   (:gen-class))
 
-(def messages-future (atom nil))
+(defonce (atom consumer-id nil))
 
 (defn start-importer []
-  (swap! messages-future (fn [mf]
-                           (when mf (future-cancel mf))
-                           (importer/start-message-consumer))))
+  (swap! consumer-id (fn [cid]
+                       (when cid (sqs/stop-consumer cid))
+                       (importer/start-message-consumer))))
 
 
 (defn stop-importer []
-  (swap! messages-future (fn [mf]
-                           (when mf
-                             (future-cancel mf))
-                           nil)))
+  (swap! consumer-id (fn [cid]
+                         (when cid (sqs/stop-consumer cid))
+                         nil)))
 
 (defn -main [& args]
   (log/info "Starting up...")
