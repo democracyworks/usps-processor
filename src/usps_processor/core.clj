@@ -30,7 +30,7 @@
   (log/info "Datomic initialized")
   (let [rabbit-resources (queue/initialize (config [:rabbitmq :connection]))]
     (log/info "RabbitMQ initialized")
-    (.start (Thread. start-importer))
+    (start-importer)
     (log/info "Importer started")
     (immutant/at-exit (fn []
                         (queue/close-all! rabbit-resources)
