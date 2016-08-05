@@ -9,7 +9,7 @@
             [clojure.tools.logging :as log])
   (:gen-class))
 
-(defonce (atom consumer-id nil))
+(defonce consumer-id (atom nil))
 
 (defn start-importer []
   (swap! consumer-id (fn [cid]
