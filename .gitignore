@@ -11,3 +11,4 @@ pom.xml.asc
 /profiles.clj
 /env-configs
 *.cid
+usps-processor@.service

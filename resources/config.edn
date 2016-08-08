@@ -4,6 +4,9 @@
              :queue #resource-config/env "USPS_SQS_QUEUE"
              :fail-queue #resource-config/env "USPS_SQS_FAIL_QUEUE"}}
  :datomic {:uri #resource-config/env "USPS_DATOMIC_URI"
-           :partition :usps-processor}
- :rabbit-mq {:connection {:host #resource-config/env "RABBITMQ_PORT_5672_TCP_ADDR"
-                          :port #resource-config/edn #resource-config/env "RABBITMQ_PORT_5672_TCP_PORT"}}}
+           :partition :usps-processor
+           :initialize true
+           :run-migrations true}
+ :rabbitmq {:connection {:host #resource-config/env "RABBITMQ_PORT_5672_TCP_ADDR"
+                         :port #resource-config/edn #resource-config/env "RABBITMQ_PORT_5672_TCP_PORT"}
+             :topics {"events" {:durable true :auto-delete false}}}}

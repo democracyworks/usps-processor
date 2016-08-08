@@ -2,13 +2,31 @@
   (:require [usps-processor.s3 :as s3]
             [usps-processor.parse :as parse]
             [usps-processor.db :as db]
-            [usps-processor.queue :as queue]
+            [usps-processor.mailing :as mailing]
+            [usps-processor.scan :as scan]
+            [usps-processor.channels :as channels]
             [squishy.core :as sqs]
             [clojure.tools.logging :as log]
             [turbovote.resource-config :refer [config]]
             [datomic-toolbox.core :as dt]
-            [clojure.edn :as edn])
+            [clojure.edn :as edn]
+            [clojure.core.async :as async])
   (:gen-class))
+
+(defn publish-scan
+  [scan]
+  (let [mailing (mailing/scan->mailing scan)
+        rendered-scan (scan/render-scan scan)
+        rendered-mailing (mailing/render mailing)
+        event (merge rendered-scan rendered-mailing)
+        edn (pr-str event)]
+    (log/info "Publishing scan event to usps-scans topic: " edn)
+    (async/>!! channels/usps-scans-out edn)))
+
+(defn publish-scans
+  [scans]
+  (doseq [scan scans]
+    (publish-scan scan)))
 
 (defn process-file [message]
   (let [{:keys [bucket filename]} (edn/read-string (:body message))]
@@ -16,22 +34,17 @@
     (let [scans (parse/parse (s3/reader-from-s3 bucket filename))
           scan-count (count scans)
           stored-scans (db/store-scans scans)]
-      (queue/publish-scans stored-scans)
+      (publish-scans stored-scans)
       (log/debug "Processed" scan-count "scans from" bucket "/" filename))))
 
-(defn -main [& args]
-  (log/info "Starting up...")
-  (dt/initialize (config [:datomic]))
-  (log/info "Datomic initialized")
-  (queue/initialize)
-  (log/info "RabbitMQ initialized")
+(defn start-message-consumer []
   (let [sqs-creds {:access-key    (config [:aws :creds :access-key])
                    :access-secret (config [:aws :creds :secret-key])
                    :region        (config [:aws :sqs :region])}
-        messages-future (sqs/consume-messages
+        cid (sqs/consume-messages
                          sqs-creds
                          (config [:aws :sqs :queue])
                          (config [:aws :sqs :fail-queue])
                          process-file)]
-      (log/info "Started")
-      messages-future))
+    (log/info "Consuming SQS messages")
+    cid))

@@ -1,39 +1,38 @@
 (ns usps-processor.queue
-  (:require [langohr.core      :as rmq]
-            [langohr.channel   :as lch]
-            [langohr.queue     :as lq]
-            [langohr.exchange  :as le]
-            [langohr.consumers :as lc]
-            [langohr.basic     :as lb]
+  (:require [langohr.core :as rmq]
+            [kehaar.wire-up :as wire-up]
+            [kehaar.rabbitmq]
             [turbovote.resource-config :refer [config]]
-            [clojure.tools.logging :refer [info]]
-            [usps-processor.mailing :as mailing]
-            [usps-processor.scan :as scan]))
-
-(def channel (atom nil))
-
-(def ^{:const true}
-  events-exchange "events")
+            [usps-processor.channels :as channels]))
 
 (defn initialize
-  []
-  (let [conn (rmq/connect (config [:rabbit-mq :connection]))
-        ch   (lch/open conn)]
-    (reset! channel ch)
-    (le/declare ch events-exchange "topic" {:durable true :auto-delete false})))
+  [rabbit-config]
+  (let [max-connection-attempts 5
+        connection (kehaar.rabbitmq/connect-with-retries
+                    rabbit-config max-connection-attempts)]
+    (let [exchanges [(wire-up/declare-events-exchange
+                      connection
+                      "events" "topic"
+                      (config [:rabbitmq :topics "events"]))]
+          incoming-events []
+          incoming-services []
+          external-services []
+          outgoing-events [(wire-up/outgoing-events-channel
+                            connection
+                            "events"
+                            "usps-scans"
+                            channels/usps-scans-out)]]
+      {:connections [connection]
+       :channels (vec (concat exchanges
+                              incoming-events
+                              incoming-services
+                              external-services
+                              outgoing-events))})))
 
-(defn publish-scan
-  [scan]
-  (let [mailing (mailing/scan->mailing scan)
-        rendered-scan (scan/render-scan scan)
-        rendered-mailing (mailing/render mailing)
-        event (merge rendered-scan rendered-mailing)
-        edn (pr-str event)]
-    (info "Publishing scan event to usps-scans topic: " edn)
-    (lb/publish @channel events-exchange "usps-scans" edn
-                {:content-type "application/edn"})))
+(defn close-resources! [resources]
+  (doseq [resource resources]
+    (when-not (rmq/closed? resource) (rmq/close resource))))
 
-(defn publish-scans
-  [scans]
-  (doseq [scan scans]
-    (publish-scan scan)))
+(defn close-all! [{:keys [connections channels]}]
+  (close-resources! channels)
+  (close-resources! connections))

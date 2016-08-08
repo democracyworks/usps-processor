@@ -15,9 +15,9 @@ EnvironmentFile=/etc/environment
 TimeoutStartSec=10min
 TimeoutStopSec=10min
 
-Environment=DOCKER_REPO=quay.io/democracyworks/usps-processor
-Environment=VERSION=latest
-Environment=CONTAINER=usps-processor
+Environment=DOCKER_REPO=
+Environment=VERSION=
+Environment=CONTAINER=
 Environment=HOME=/root
 
 ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
