@@ -18,10 +18,9 @@
   (let [mailing (mailing/scan->mailing scan)
         rendered-scan (scan/render-scan scan)
         rendered-mailing (mailing/render mailing)
-        event (merge rendered-scan rendered-mailing)
-        edn (pr-str event)]
-    (log/info "Publishing scan event to usps-scans topic: " edn)
-    (async/>!! channels/usps-scans-out edn)))
+        event (merge rendered-scan rendered-mailing)]
+    (log/debug "Publishing scan event to usps-scans topic:" (pr-str event))
+    (async/>!! channels/usps-scans-out event)))
 
 (defn publish-scans
   [scans]
