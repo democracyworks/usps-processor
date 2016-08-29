@@ -43,7 +43,7 @@
                       :mailing/serial-number-9 "789654321"}]
         (async/alt!!
           channels/usps-scans-out
-          ([v] (is (=  (-> v edn/read-string) expected)))
+          ([v] (is (= v expected)))
 
           (async/timeout 500)
           (throw (RuntimeException. "test failed")))))))
