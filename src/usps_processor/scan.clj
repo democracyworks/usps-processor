@@ -1,5 +1,5 @@
 (ns usps-processor.scan
-  (:require [usps-processor.zip-lookup :as zip]))
+  (:require [phantom-zone.core :as zip]))
 
 (defn attach-facility-city-state [scan]
   (assoc scan

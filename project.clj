@@ -37,7 +37,8 @@
                   :exclusions [commons-codec]]
                  [riemann-clojure-client "0.4.2"]
                  [com.novemberain/langohr "3.6.1"]
-                 [prismatic/schema "1.1.3"]]
+                 [prismatic/schema "1.1.3"]
+                 [democracyworks/phantom-zone "0.1.1"]]
   :plugins [[lein-immutant "2.1.0"]]
   :main ^:skip-aot usps-processor.core
   :target-path "target/%s"

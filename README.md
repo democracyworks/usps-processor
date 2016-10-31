@@ -66,14 +66,6 @@ The `script/build` and `script/deploy` scripts are designed to automate building
    list-units`).
 1. Run `script/deploy image/name`.
 
-
-## Updating resources/zipcode-city-state.edn
-
-To update resources/zipcode-city-state.edn, in the case that the USPS releases new data, download the new data from
-http://www.usps.com/mailtracking/_csv/NonAutomated5Digit.csv and transform it into an edn map from integer zipcodes
-to maps of the city and state. Note that some zipcodes appear multiple times. The existing file has made the decision
-to take the first instance of a zipcode and remove all later ones.
-
 ## RabbitMQ events
 
 usps-processor sends RabbitMQ messages to an "events" topic exchange. These
@@ -109,4 +101,4 @@ Watch the `USPS_SQS_FAIL_QUEUE` for failure messages.
 
 ## Copyright
 
-Copyright © 2014-2015 Democracy Works, Inc.
+Copyright © 2014-2016 Democracy Works, Inc.
