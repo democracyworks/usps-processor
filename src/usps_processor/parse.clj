@@ -6,7 +6,7 @@
             [clj-time.core :as time]
             [clj-time.format :as format]
             [clj-time.coerce :as coerce]
-            [usps-processor.zip-lookup :as zip]
+            [phantom-zone.core :as zip]
             [schema.core :as s]))
 
 (def default-timezone-id "America/Los_Angeles")
