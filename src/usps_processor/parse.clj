@@ -18,7 +18,10 @@
   (or (some-> zip
               zip/zipcode->city-state-timezone
               :timezone-id)
-      default-timezone-id))
+      (do
+        (log/warn "No timezone found for ZIP" zip "- Falling back on default:"
+                  default-timezone-id)
+        default-timezone-id)))
 
 (defn timezone-id->timezone
   "Gets the TimeZone for the given timezone-id (e.q. 'America/Seattle'),
