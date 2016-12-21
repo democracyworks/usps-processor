@@ -1,9 +1,7 @@
 (ns usps-processor.parse-test
   (:require [clojure.test :refer :all]
             [usps-processor.parse :refer :all]
-            [clj-time.core :as time]
-            [clj-time.coerce :as coerce]
-            [clj-time.format :as format]))
+            [clj-time.core :as time]))
 
 (deftest zip->timezone-id-test
   (testing "with a zipcode in our data set"
