@@ -36,7 +36,6 @@
                                org.clojure/clojurescript]]
                  [javax.servlet/servlet-api "2.5"]
                  [org.immutant/web "2.1.5"
-                 [riemann-clojure-client "0.4.2"]
                   :exclusions [commons-codec commons-io]]
                  [com.novemberain/langohr "3.7.0"]
                  [prismatic/schema "1.1.3"]
