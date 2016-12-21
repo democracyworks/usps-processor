@@ -1,9 +1,7 @@
 (ns usps-processor.parse-test
   (:require [clojure.test :refer :all]
             [usps-processor.parse :refer :all]
-            [clj-time.core :as time]
-            [clj-time.coerce :as coerce]
-            [clj-time.format :as format]))
+            [clj-time.core :as time]))
 
 (deftest zip->timezone-id-test
   (testing "with a zipcode in our data set"
@@ -22,11 +20,11 @@
 (deftest ->time-utc-test
   (testing "with a Denver Time"
     ;; Note how the Denver time is 1:58 PM, which is 8:58 PM UTC
-    (is (= (time/date-time 2016 4 7 20 58 0 0))
-        (->time-utc "04/07/2016 13:58:00" "America/Denver")))
+    (is (= (time/date-time 2016 1 7 20 58 0 0)
+           (->time-utc "01/07/2016 13:58:00" "America/Denver"))))
   (testing "defaults to LA time if the time zone id isn't a known one"
-    (is (= (time/date-time 2016 4 7 21 58 0 0))
-        (->time-utc "04/07/2016 13:58:00" "America/Walla_Walla"))))
+    (is (= (time/date-time 2016 1 7 21 58 0 0)
+           (->time-utc "01/07/2016 13:58:00" "America/Walla_Walla")))))
 
 (deftest valid-number?-test
   (testing "passes when all digits and match count"

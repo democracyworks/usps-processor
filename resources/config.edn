@@ -9,4 +9,7 @@
            :run-migrations true}
  :rabbitmq {:connection {:host #resource-config/env "RABBITMQ_PORT_5672_TCP_ADDR"
                          :port #resource-config/edn #resource-config/env "RABBITMQ_PORT_5672_TCP_PORT"}
-             :topics {"events" {:durable true :auto-delete false}}}}
+            :kehaar {:event-exchanges [{:exchange "events"}]
+                     :outgoing-events [{:exchange "events"
+                                        :routing-key "usps-scans"
+                                        :channel usps-processor.channels/usps-scans-out}]}}}
