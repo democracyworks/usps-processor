@@ -34,6 +34,7 @@
                   :exclusions [org.clojure/clojure
                                org.clojure/tools.reader
                                org.clojure/clojurescript]]
+                 [democracyworks/kehaar "0.8.1"]
                  [javax.servlet/servlet-api "2.5"]
                  [org.immutant/web "2.1.5"
                   :exclusions [commons-codec commons-io]]
