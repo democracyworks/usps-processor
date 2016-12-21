@@ -43,10 +43,9 @@
                  [democracyworks/phantom-zone "0.1.1"]]
   :plugins [[lein-immutant "2.1.0"]]
   :main ^:skip-aot usps-processor.core
-  :target-path "target/%s"
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
-                                   :username :env
-                                   :password :env}}
+                                   :username :env/datomic_username
+                                   :password :env/datomic_password}}
   :uberjar-name "usps-processor.jar"
   :profiles {:uberjar {:aot :all}
              :dev-common {:resource-paths ["dev-resources"]

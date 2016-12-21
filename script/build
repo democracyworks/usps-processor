@@ -24,10 +24,7 @@ if [[ -z $DOCKER_REPO ]]; then
 fi
 
 echo '--- building docker image'
-if [[ -n $DATOMIC_USERNAME && -n $DATOMIC_PASSWORD ]]; then
-  cat profiles.clj.sample | perl -pe 's/USERNAME/$ENV{"DATOMIC_USERNAME"}/' | \
-    perl -pe 's/PASSWORD/$ENV{"DATOMIC_PASSWORD"}/' > profiles.clj
-fi
+if [[ ! -e "profiles.clj" ]]; then echo '{}' > profiles.clj; fi
 
 if [[ -z $BUILDKITE_BRANCH ]]; then
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -46,7 +43,9 @@ IMAGE_TAG=${BRANCH}-$(git rev-parse --short ${COMMIT})
 IMAGE_NAME="${DOCKER_REPO}:${IMAGE_TAG}"
 
 echo "Building ${IMAGE_NAME}"
-docker build --pull -t ${IMAGE_NAME} .
+docker build --build-arg DATOMIC_USERNAME=$DATOMIC_USERNAME \
+             --build-arg DATOMIC_PASSWORD=$DATOMIC_PASSWORD \
+             --pull -t ${IMAGE_NAME} .
 
 if [[ $CI = "true" && $BUILDKITE_PULL_REQUEST = "false" ]]; then
   echo '--- pushing docker image to registry'
