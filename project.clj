@@ -7,8 +7,8 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/core.async "0.2.395"]
                  [ch.qos.logback/logback-classic "1.1.8"]
-                 [turbovote.resource-config "0.2.0"]
-                 [democracyworks/datomic-toolbox "2.0.3"
+                 [turbovote.resource-config "0.2.1"]
+                 [democracyworks/datomic-toolbox "2.0.4"
                   :exclusions [com.datomic/datomic-pro]]
                  [com.datomic/datomic-pro "0.9.5544"
                   :exclusions [org.slf4j/slf4j-nop
@@ -25,7 +25,7 @@
                                com.fasterxml.jackson.core/jackson-core
                                com.fasterxml.jackson.core/jackson-annotations
                                com.amazonaws/aws-java-sdk]]
-                 [clj-time "0.12.2"]
+                 [clj-time "0.13.0"]
                  [democracyworks/squishy "3.0.1"
                   :exclusions [commons-codec
                                com.amazonaws/aws-java-sdk-sqs]]
@@ -36,7 +36,7 @@
                                org.clojure/clojurescript]]
                  [democracyworks/kehaar "0.8.1"]
                  [javax.servlet/servlet-api "2.5"]
-                 [org.immutant/web "2.1.5"
+                 [org.immutant/web "2.1.6"
                   :exclusions [commons-codec commons-io]]
                  [com.novemberain/langohr "3.7.0"]
                  [prismatic/schema "1.1.3"]
