@@ -19,4 +19,4 @@ RUN lein with-profiles $env,datomic-repo,test test
 
 RUN lein with-profiles $env,datomic-repo uberjar
 
-CMD ["java", "-jar", "target/usps-processor.jar"]
+CMD ["java", "-javaagent:resources/jars/com.newrelic.agent.java/newrelic-agent.jar", "-jar", "target/usps-processor.jar"]
