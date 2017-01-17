@@ -31,6 +31,7 @@ ExecStart=/usr/bin/bash -c 'docker run --name ${CONTAINER} \
   --env USPS_SQS_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/queue?raw) \
   --env USPS_SQS_FAIL_QUEUE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/sqs/fail-queue?raw) \
   --env USPS_DATOMIC_URI=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/datomic/uri-root?raw)/usps-processor \
+  --env NEW_RELIC_LICENSE_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/new-relic/license-key?raw) \
   --env RABBITMQ_PORT_5672_TCP_ADDR=rabbitmq.service.consul \
   --env RABBITMQ_PORT_5672_TCP_PORT=5672 \
   ${DOCKER_REPO}:${VERSION}'

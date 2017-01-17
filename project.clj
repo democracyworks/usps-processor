@@ -41,7 +41,12 @@
                  [com.novemberain/langohr "3.7.0"]
                  [prismatic/schema "1.1.3"]
                  [democracyworks/phantom-zone "0.1.1"]]
-  :plugins [[lein-immutant "2.1.0"]]
+  :plugins [[lein-immutant "2.1.0"]
+            [com.carouselapps/jar-copier "0.3.0"]]
+  :java-agents [[com.newrelic.agent.java/newrelic-agent "3.35.1"]]
+  :jar-copier {:java-agents true
+               :destination "resources/jars"}
+  :prep-tasks ["javac" "compile" "jar-copier"]
   :main ^:skip-aot usps-processor.core
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username :env/datomic_username
