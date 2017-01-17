@@ -57,7 +57,6 @@
                           :source-paths ["dev-src"]}
              :dev-overrides {}
              :dev [:dev-common :dev-overrides]
-             :production {:jvm-opts ["-XX:+UseG1GC"]}
              :test {:resource-paths ["test-resources"]
                     :main usps-processor.core-test
                     :jvm-opts ["-Dlog-level=OFF"]}})
