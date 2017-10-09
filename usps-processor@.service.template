@@ -24,6 +24,7 @@ ExecStartPre=/bin/bash -c 'sleep 2 && curl -s http://${COREOS_PRIVATE_IPV4}:8500
 ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
 
 ExecStart=/usr/bin/bash -c 'docker run --name ${CONTAINER} \
+  --memory $(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/docker/container-memory-limit?raw) \
   --dns $COREOS_PRIVATE_IPV4 \
   --env AWS_ACCESS_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/access-key?raw) \
   --env AWS_SECRET_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/usps-processor/aws/credentials/secret-key?raw) \
